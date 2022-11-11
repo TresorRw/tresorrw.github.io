@@ -117,6 +117,9 @@ p.desc {
     .mainPage {
         padding: 20px;
     }
+    header {
+        padding: 20px;
+    }
     header h1 {
         font-size: 20px;
     }
