@@ -155,6 +155,7 @@
             </div>
             <div class="skills w-40">
                 <form action="#" class="w-100" id="sendMessage">
+                    <p id="sm"></p>
                     <div class="input-group">
                         <label for="names">Name*</label>
                         <input type="text" class="w-80" name="names" id="names" required placeholder="Your full names">
@@ -173,5 +174,33 @@
         </section>
     </div>
     <script src="js/main.js"></script>
+    <script>
+        let sendBn = document.getElementById('message');
+        sendBn.addEventListener('click', (e) => {
+            e.preventDefault();
+            sendMessage();
+        })
+        if (localStorage.getItem('messages') != null) {
+            var messages = JSON.parse(localStorage.getItem('messages'));
+        } else {
+            var messages = [];
+        }
+        let sendMessage = () => {
+            let names = document.getElementById('names').value;
+            let eml = document.getElementById('eml').value;
+            let msg = document.getElementById('msg').value;
+            let content = {
+                nm: names,
+                email: eml,
+                message: msg
+            };
+            messages.push(content);
+            localStorage.setItem('messages', JSON.stringify(messages));
+            document.getElementById('sm').innerHTML = 'Message sent!';
+            names = '';
+            eml = '';
+            msg = '';
+        }
+    </script>
 </body>
 </html>
