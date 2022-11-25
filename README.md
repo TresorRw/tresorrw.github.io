@@ -1,5 +1,5 @@
-**CYUSA Alain Tresor CV** 
-_This is my CV which includes ore about me._
+# CYUSA Alain Tresor CV 
+_This is my CV which includes ore about me._ <br>
 Its hosted on [Vercell](https://tresor-cv.vercel.app).
 
 ###Screenshots
