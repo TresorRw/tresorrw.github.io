@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>All Articles ::MY Brand</title>
+</head>
+
+<body id="body">
+    <nav class="w-100 flex align-center">
+        <div class="lg">
+            <a href="#" class="logo">Tresor</a>
+            <small>blog</small>
+        </div>
+        <div id="toggler" class="profile">
+            <div class="userProfile fa-solid fa-user-circle"></div>
+        </div>
+    </nav>
+    <div id="menus" class="menuUser">
+        <a href="#"><span class="fa-solid fa-user-cog"></span> Profile</a>
+        <a href="#" class="logout" onclick="logout();"><span class="fa-solid fa-right-from-bracket"></span> Logout</a>
+    </div>
+    <div id="main-page" class="w-100">
+        <h3><small>blog/</small> all articles</h3>
+        <div class="contents w-100 flex content-center">
+            <button id="new"><span class="fa-solid fa-plus-square"></span> New Post</button>
+            <div id="posts" class="posts"></div>
+        </div>
+    </div>
+    <div id="form" class="postForm">
+        <div class="header flex space-between">
+            <h3>ADD NEW POST</h3>
+            <span id="close" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form action="#">
+                <p id="sms"></p>
+                <input type="text" placeholder="Blog Title" required id="title">
+                <input type="text" placeholder="Catogory" required id="cat">
+                <textarea id="cont" cols="30" rows="5" placeholder="More"></textarea>
+                <button id="send" onclick="post();">Post</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        let btn = document.getElementById('new');
+        let form = document.getElementById('form');
+        let pg = document.getElementById('main-page');
+        let clse = document.getElementById('close');
+        let postsContainer = document.getElementById('posts');
+        let toggler = document.getElementById('toggler');
+        if (localStorage.getItem('posts') != null) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+        } else {
+            console.log('Data not captured!');
+            var blogs = [];
+        }
+        let logout = () =>{
+            let loggedOutUser = document.cookie;
+            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
+            window.location.href = 'index.html#sign-in';
+        }
+        let displayPosts = () => {
+            postsContainer.innerHTML = '';
+            for (const blog of blogs) {
+                postsContainer.innerHTML += `<div class="single flex content-center">
+                    <img src="assets/big.png" alt="image">
+                    <div class="more w-25">
+                        <h4 class="title">${blog.title}</h4>
+                        <p>${blog.desc}</p>
+                        <span class="fa-solid fa-ellipsis-vertical"></span>
+                    </div>
+                </div>`;
+            }
+        }
+        displayPosts();
+        let post = () => {
+            let title = document.getElementById('title').value;
+            let cat = document.getElementById('cat').value;
+            let msg = document.getElementById('cont').value;
+            let newPost = new Object();
+            newPost.title = title;
+            newPost.category = cat;
+            newPost.desc = msg;
+            blogs.push(newPost);
+            localStorage.setItem('posts', JSON.stringify(blogs));
+            sms.innerHTML = 'Post created please click on close icon.';
+            displayPosts();
+        }
+        toggler.addEventListener('click', () => {
+            menus.classList.toggle('toggled');
+        });
+        clse.addEventListener('click', () => {
+            form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        btn.addEventListener('click', () => {
+            form.classList.toggle('show');
+            if (form.className == 'postForm show') {
+                pg.style.filter = 'blur(5px)';
+            } else {
+                pg.style.filter = '';
+            }
+        });
+    </script>
+</body>
+
+</html>

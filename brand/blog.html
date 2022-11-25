@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>BLOG :: MY Brand</title>
+</head>
+
+<body id="body">
+    <header id="top" class="scrolled">
+        <a href="index.html" class="nav-logo">Tresor</a>
+        <ul>
+            <li><a onclick="defaultLoad()" href="index.html">Home</a></li>
+            <li><a href="index.html#why">Why me?</a></li>
+            <li><a href="index.html#who-am-i">About me</a></li>
+            <li class="active"><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#sign-in">Sign in</a></li>
+            <li class="special"><a href="index.html#contact">Send inquiry</a></li>
+        </ul>
+    </header>
+    <div class="main-page">
+        <section id="why" class="bg-white blog flex">
+            <div class="skills w-50">
+                <div class="blogData">
+                    <div id="bigOne">
+                        <img class="w-80" src="assets/big.png" alt="Big image post">
+                        <div class="info">
+                            <a class="blogTitle" href="#">Web Development</a>
+                            <p>Web development is the work involved in developing a website for the Internet or an
+                                intranet.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <a href="#" class="like"><i class="fa-regular fa-thumbs-up"></i></a>
+                        <a href="#" class="like"><i class="fa-regular fa-message"></i></a>
+                        <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="boadrs w-40">
+                <div id="small_pst" class="smallPosts ">
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        let blogCenter = document.getElementById('bigOne');
+        let small_pst = document.getElementById('small_pst');
+        if (localStorage.getItem('posts') != null) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+        } else {
+            var blogs = [];
+        }
+        let random = Math.floor(Math.random() * blogs.length);
+        let blogInfo = blogs[random];
+        blogCenter.innerHTML = `
+                    <img class="w-80" src="assets/big.png" alt="Big image post">
+                    <div class="info">
+                        <a class="blogTitle" href="#">${blogInfo.title}</a>
+                        <p>${blogInfo.desc}</p>
+                    </div>`;
+                    small_pst.innerHTML = '';
+        for (const pot of blogs) {
+            small_pst.innerHTML += `
+                    <div class="smallPost flex align-center">
+                        <img src="assets/pc.png" alt="Post image">
+                        <div class="info w-65">
+                            <a href="#">${pot.title}</a>
+                            <p>${pot.desc}.</p>
+                        </div>
+                    </div>`;
+        }
+    </script>
+</body>
+
+</html>
