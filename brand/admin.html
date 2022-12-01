@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>Main Dashboard ::MY Brand</title>
+</head>
+
+<body id="body">
+    <nav class="w-100 flex align-center">
+        <div class="lg">
+            <a href="#" class="logo">Tresor</a>
+            <small>admin</small>
+        </div>
+        <div id="toggler" class="profile">
+            <div class="userProfile fa-solid fa-user-circle"></div>
+        </div>
+    </nav>
+    <div id="menus" class="menuUser">
+        <a href="profile.html"><span class="fa-solid fa-user-cog"></span> Profile</a>
+        <a href="#" class="logout" onclick="logout();"><span class="fa-solid fa-right-from-bracket"></span> Logout</a>
+    </div>
+    <div id="admin" class="w-100 flex">
+        <div class="sidebar flex w-25">
+            <ul>
+                <li class="active"><a href="admin.html">Dashboard</a></li>
+                <li><a href="#">Blog Owners</a></li>
+            </ul>
+        </div>
+        <div class="main-content w-75">
+            <h4><small>admin/</small> <strong>Main Dashboard</strong></h4>
+            <div class="cards flex content-center w-100">
+                <div class="card">
+                    <h3 class="card-title">Posts</h3>
+                    <h2 id="blg">0</h2>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Users</h3>
+                    <h2 id="usr">0</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        let toggler = document.getElementById('toggler');
+        if (localStorage.getItem('posts') != null && localStorage.getItem('accounts')) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+            var users = JSON.parse(localStorage.getItem('accounts'));
+        } else {
+            console.log('Data not captured!');
+            var blogs = [];
+            var users = [];
+        }
+        document.getElementById('blg').innerHTML = blogs.length;
+        document.getElementById('usr').innerHTML = users.length;
+        let logout = () => {
+            let loggedOutUser = document.cookie;
+            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
+            window.location.href = 'index.html#sign-in';
+        }
+        
+        toggler.addEventListener('click', () => {
+            menus.classList.toggle('toggled');
+        });
+    </script>
+</body>
+
+</html>
