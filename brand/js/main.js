@@ -60,22 +60,28 @@ let logIntoYourAccount = () => {
     let email = document.getElementById('email').value;
     let pwd = document.getElementById('pass').value;
     let sms = document.getElementById('msgs');
-    for (const person of accounts) {
-        if (person.email == email && person.pwd == pwd) {
-            if (person.email == 'alaintresorcyusa683@gmail.com') {
-                document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-                setTimeout(() => {
-                    window.location.href = 'admin.html';
-                }, 2000);
+    if (email == '' || pwd == '') {
+        sms.style.color = "#f00;";
+        sms.innerHTML = "Please fill all fileds!";
+    } else {
+        for (const person of accounts) {
+            if (person.email == email && person.pwd == pwd) {
+                if (person.email == 'alaintresorcyusa683@gmail.com') {
+                    document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                    setTimeout(() => {
+                        window.location.href = 'admin.html';
+                    }, 2000);
+                } else {
+                    document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                    sms.style.color = 'green';
+                    sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
+                    setTimeout(() => {
+                        window.location.href = 'allArticles.html';
+                    }, 1000);
+                }
             } else {
-                document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-                sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
-                setTimeout(() => {
-                    window.location.href = 'allArticles.html';
-                }, 1000);
+                sms.innerHTML = 'No account found';
             }
-        } else {
-            sms.innerHTML = 'No account found';
         }
     }
 }
