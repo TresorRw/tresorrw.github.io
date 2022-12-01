@@ -61,7 +61,7 @@ let logIntoYourAccount = () => {
                 document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                 setTimeout(() => {
                     window.location.href = 'admin.html';
-                }, 1000);
+                }, 2000);
             } else {
                 document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                 sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
