@@ -61,12 +61,13 @@ let logIntoYourAccount = () => {
     let pwd = document.getElementById('pass').value;
     let sms = document.getElementById('msgs');
     if (email == '' || pwd == '') {
-        sms.style.color = "#f00;";
+        sms.style.color = "red";
         sms.innerHTML = "Please fill all fileds!";
     } else {
         for (const person of accounts) {
             if (person.email == email && person.pwd == pwd) {
                 if (person.email == 'alaintresorcyusa683@gmail.com') {
+                    sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Being redirected.';
                     document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                     setTimeout(() => {
                         window.location.href = 'admin.html';
@@ -74,7 +75,7 @@ let logIntoYourAccount = () => {
                 } else {
                     document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                     sms.style.color = 'green';
-                    sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
+                    sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged in';
                     setTimeout(() => {
                         window.location.href = 'allArticles.html';
                     }, 1000);
