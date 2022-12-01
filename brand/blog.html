@@ -26,7 +26,7 @@
     <div class="main-page">
         <section id="why" class="bg-white blog flex">
             <div class="skills w-50">
-                <div class="blogData">
+                <div id="bigContent" class="blogData">
                     <div id="bigOne">
                         <img class="w-80" src="assets/big.png" alt="Big image post">
                         <div class="info">
@@ -35,11 +35,6 @@
                                 intranet.
                             </p>
                         </div>
-                    </div>
-                    <div class="actions">
-                        <a href="#" class="like"><i class="fa-regular fa-thumbs-up"></i></a>
-                        <a href="#" class="like"><i class="fa-regular fa-message"></i></a>
-                        <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -51,31 +46,64 @@
     </div>
     <script src="js/main.js"></script>
     <script>
-        let blogCenter = document.getElementById('bigOne');
+        let blogCenter = document.getElementById('bigContent');
         let small_pst = document.getElementById('small_pst');
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             var blogs = [];
         }
+        if (localStorage.getItem('likes') != null) {
+            var likes = JSON.parse(localStorage.getItem('likes'));
+        } else {
+            var likes = [];
+        }
+
         let random = Math.floor(Math.random() * blogs.length);
         let blogInfo = blogs[random];
+        let blog_id = blogInfo.id;
+        let likesPost = likes.findIndex((lk) => lk.post == blog_id);
+        let totalLove = (likesPost <= -1)? 0 : likes[likesPost].count;
         blogCenter.innerHTML = `
-                    <img class="w-80" src="assets/big.png" alt="Big image post">
+                    <div id="bigOne">
+                    <img class="w-80" src="${blogInfo.profile}" alt="Big image post">
                     <div class="info">
                         <a class="blogTitle" href="#">${blogInfo.title}</a>
                         <p>${blogInfo.desc}</p>
+                    </div>
+                    <div class="actions">
+                        <a href="#" class="like" onclick="likePost(${random})"><i class="fa-regular fa-thumbs-up"></i> ${totalLove}</a>
+                        <a href="#" class="like"><i class="fa-regular fa-message"></i></a>
+                        <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
+                    </div>
                     </div>`;
-                    small_pst.innerHTML = '';
+        small_pst.innerHTML = '';
         for (const pot of blogs) {
             small_pst.innerHTML += `
                     <div class="smallPost flex align-center">
-                        <img src="assets/pc.png" alt="Post image">
+                        <img src="${pot.profile}" alt="Post image">
                         <div class="info w-65">
                             <a href="#">${pot.title}</a>
                             <p>${pot.desc}.</p>
                         </div>
                     </div>`;
+        }
+        let likePost = (index) => {
+            let placeOfPost = likes.findIndex((like) => like.post == index);
+            if (placeOfPost <= -1) {
+                let newLike = new Object();
+                newLike.post = index;
+                newLike.count = 1;
+                likes.push(newLike);
+                localStorage.setItem('likes', JSON.stringify(likes));
+            } else {
+                let totalLikes = likes[placeOfPost].count;
+                likes[placeOfPost] = {
+                    post: index,
+                    count: totalLikes+1
+                }
+                localStorage.setItem('likes', JSON.stringify(likes));
+            }
         }
     </script>
 </body>

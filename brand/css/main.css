@@ -15,6 +15,14 @@
   background: #f1f1f1;
 }
 
+.good {
+  color: var(--color-bg);
+}
+
+.red {
+  color: #f00;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #c1c1c1;
   border-radius: 10px;
@@ -477,7 +485,7 @@ nav .userProfile {
   cursor: pointer;
 }
 
-.menuUser {
+.menuUser, .menuPost {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   border-radius: 4px;
   position: absolute;
@@ -486,15 +494,39 @@ nav .userProfile {
   padding: 0.5%;
   display: none;
 }
-.menuUser.toggled {
+.menuUser.toggled, .menuPost.toggled {
   display: block;
 }
-.menuUser a {
+.menuUser a, .menuPost a {
   display: block;
   margin: 5px 10px;
 }
-.menuUser a.logout {
+.menuUser a.logout, .menuPost a.logout {
   color: #f00;
+}
+
+#admin .sidebar {
+  background: var(--color-bg);
+  width: 240px;
+  height: 100vh;
+  padding: 1%;
+  justify-content: space-between;
+  flex-direction: column;
+}
+#admin .sidebar ul li {
+  list-style-type: none;
+  padding: 0.4em 1em;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+#admin .sidebar ul li:hover, #admin .sidebar ul li.active {
+  background-color: #fff;
+}
+#admin .sidebar ul li:hover a, #admin .sidebar ul li.active a {
+  color: var(--color-bg);
+}
+#admin .sidebar ul li a {
+  color: #fff;
 }
 
 #main-page {
@@ -531,7 +563,42 @@ nav .userProfile {
   cursor: pointer;
 }
 
-.postForm {
+.main-content {
+  padding: 1%;
+}
+
+.cards {
+  margin-top: 3%;
+}
+.cards .form-group {
+  margin: 10px 0;
+}
+.cards form input {
+  outline: none;
+  padding: 0.3em 0.5em;
+  border-radius: 2px;
+  border: 1px solid #121257;
+  width: 100%;
+}
+.cards form button {
+  padding: 0.4em 1em;
+  border-style: none;
+  background-color: var(--color-bg);
+  color: var(--color-white);
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cards .card {
+  text-align: center;
+  width: 20%;
+  padding: 1%;
+  margin: 10px 2em;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 51, 0.5);
+  border-radius: 10px;
+}
+
+.postForm, .updateForm {
   display: none;
   width: 400px;
   max-width: 100%;
@@ -544,21 +611,23 @@ nav .userProfile {
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
-.postForm.show {
+.postForm.show, .updateForm.show {
   display: block;
 }
-.postForm .header {
+.postForm .header, .updateForm .header {
   background-color: var(--color-bg);
   color: var(--color-white);
   padding: 10px;
   border-radius: 10px 10px 0 0;
 }
-.postForm .body {
+.postForm .body, .updateForm .body {
   padding: 10px;
   width: 100%;
   text-align: center;
 }
-.postForm .body form input, .postForm .body textarea {
+.postForm .body form input,
+.postForm .body textarea, .updateForm .body form input,
+.updateForm .body textarea {
   width: 100%;
   outline: none;
   font-size: 16px;
@@ -568,7 +637,7 @@ nav .userProfile {
   margin-bottom: 5px;
   resize: vertical;
 }
-.postForm .body button {
+.postForm .body button, .updateForm .body button {
   padding: 0.3em 2em;
   font-size: 18px;
   background-color: var(--color-bg);

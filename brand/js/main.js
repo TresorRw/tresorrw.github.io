@@ -39,7 +39,7 @@ let createNewAccount = () => {
     let email = document.getElementById('email').value;
     let pwd = document.getElementById('pass').value;
     let newAccount = new Object();
-    newAccount.email= email;
+    newAccount.email = email;
     newAccount.pwd = pwd;
     accounts.push(newAccount);
     localStorage.setItem('accounts', JSON.stringify(accounts));
@@ -47,7 +47,7 @@ let createNewAccount = () => {
     email.value = '';
     pwd.value = '';
     document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-    setTimeout(()=> {
+    setTimeout(() => {
         window.location.href = 'allArticles.html';
     }, 2000);
 }
@@ -57,11 +57,18 @@ let logIntoYourAccount = () => {
     let sms = document.getElementById('msgs');
     for (const person of accounts) {
         if (person.email == email && person.pwd == pwd) {
-            document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-            sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
-            setTimeout(()=> {
-                window.location.href = 'allArticles.html';
-            }, 2000);
+            if (person.email == 'alaintresorcyusa683@gmail.com') {
+                document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                setTimeout(() => {
+                    window.location.href = 'admin.html';
+                }, 1000);
+            } else {
+                document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged';
+                setTimeout(() => {
+                    window.location.href = 'allArticles.html';
+                }, 1000);
+            }
         } else {
             sms.innerHTML = 'No account found';
         }

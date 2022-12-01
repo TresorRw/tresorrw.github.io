@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
     <title>All Articles ::MY Brand</title>
 </head>
+
 <body id="body">
     <nav class="w-100 flex align-center">
         <div class="lg">
@@ -36,12 +38,30 @@
             <span id="close" class="fa-solid fa-close"></span>
         </div>
         <div class="body">
-            <form action="#">
+            <form id="forms">
                 <p id="sms"></p>
                 <input type="text" placeholder="Blog Title" required id="title">
                 <input type="text" placeholder="Catogory" required id="cat">
+                <input type="file" name="img" id="profile">
                 <textarea id="cont" cols="30" rows="5" placeholder="More"></textarea>
-                <button id="send" onclick="post();">Post</button>
+                <button type="submit" id="send">Post</button>
+            </form>
+        </div>
+    </div>
+    <div id="updateForm" class="updateForm">
+        <div class="header flex space-between">
+            <h3>UPDATE POST</h3>
+            <span id="closes" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form id="forms">
+                <p id="sms"></p>
+                <input type="hidden" name="id" id="ids">
+                <input type="text" placeholder="Blog Title" required id="n_t">
+                <input type="text" placeholder="Catogory" required id="n_c">
+                <input type="file" name="img" id="prfl">
+                <textarea id="n_desc" cols="30" rows="5" placeholder="More"></textarea>
+                <button type="submit" id="update">Save Changes</button>
             </form>
         </div>
     </div>
@@ -49,53 +69,49 @@
     <script>
         let btn = document.getElementById('new');
         let form = document.getElementById('form');
+        let up_form = document.getElementById('updateForm');
         let pg = document.getElementById('main-page');
         let clse = document.getElementById('close');
+        let clses = document.getElementById('closes');
         let postsContainer = document.getElementById('posts');
         let toggler = document.getElementById('toggler');
+        let send = document.getElementById('send');
+        let update = document.getElementById('update');
+        update.addEventListener('click', (e) => {
+            e.preventDefault();
+            let id = document.getElementById('ids').value;
+            let title = document.getElementById('n_t').value;
+            let cat = document.getElementById('n_c').value;
+            let msg = document.getElementById('n_desc').value;
+            let img = document.getElementById('prfl').files[0];
+            blogs[id] = {
+                id: Number(id),
+                title: title,
+                category: cat,
+                desc: msg,
+                profile: URL.createObjectURL(img)
+            }
+            localStorage.setItem('posts', JSON.stringify(blogs));
+            sms.innerHTML = 'Post updated please click on close icon.';
+            displayPosts();
+        })
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             console.log('Data not captured!');
             var blogs = [];
         }
-        let logout = () =>{
-            let loggedOutUser = document.cookie;
-            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
-            window.location.href = 'index.html#sign-in';
-        }
-        let displayPosts = () => {
-            postsContainer.innerHTML = '';
-            for (const blog of blogs) {
-                postsContainer.innerHTML += `<div class="single flex content-center">
-                    <img src="assets/big.png" alt="image">
-                    <div class="more w-25">
-                        <h4 class="title">${blog.title}</h4>
-                        <p>${blog.desc}</p>
-                        <span class="fa-solid fa-ellipsis-vertical"></span>
-                    </div>
-                </div>`;
-            }
-        }
-        displayPosts();
-        let post = () => {
-            let title = document.getElementById('title').value;
-            let cat = document.getElementById('cat').value;
-            let msg = document.getElementById('cont').value;
-            let newPost = new Object();
-            newPost.title = title;
-            newPost.category = cat;
-            newPost.desc = msg;
-            blogs.push(newPost);
+        let deletePost = (index) => {
+            blogs.splice(index, 1);
             localStorage.setItem('posts', JSON.stringify(blogs));
-            sms.innerHTML = 'Post created please click on close icon.';
             displayPosts();
         }
-        toggler.addEventListener('click', () => {
-            menus.classList.toggle('toggled');
-        });
         clse.addEventListener('click', () => {
             form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        clses.addEventListener('click', () => {
+            up_form.classList.remove('show');
             pg.style.filter = '';
         });
         btn.addEventListener('click', () => {
@@ -105,6 +121,63 @@
             } else {
                 pg.style.filter = '';
             }
+        });
+        let logout = () => {
+            let loggedOutUser = document.cookie;
+            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
+            window.location.href = 'index.html#sign-in';
+        }
+        let displayPosts = () => {
+            postsContainer.innerHTML = '';
+            for (let i = 0; i < blogs.length; i++) {
+                let blog = blogs[i];
+                postsContainer.innerHTML += `<div class="single flex content-center">
+                    <img src="${blog.profile}" alt="image">
+                    <div class="more w-25">
+                        <h4 class="title">${blog.title}</h4>
+                        <p>${blog.desc}</p>
+                        <span onclick="updatePost(${i},'${blog.title}', '${blog.desc}', '${blog.category}');" id="postMenu" class="fa-solid fa-pencil good"></span>
+                        <span id="deletePost" onclick="deletePost(${i})" class="fa-solid fa-trash red"></span>
+                    </div>
+                </div>`;
+            }
+        }
+        displayPosts();
+        send.addEventListener('click', (e) => {
+            e.preventDefault();
+            post();
+        });
+        let updatePost = (index, t, d, c) => {
+            up_form.classList.toggle('show');
+            if (up_form.className == 'updateForm show') {
+                pg.style.filter = 'blur(3px)';
+            } else {
+                pg.style.filter = '';
+            }
+            let id = document.getElementById('ids').value = index;
+            let title = document.getElementById('n_t').value = t;
+            let cat = document.getElementById('n_c').value = c;
+            let msg = document.getElementById('n_desc').value = d;
+        }
+        let post = () => {
+            let title = document.getElementById('title').value;
+            let cat = document.getElementById('cat').value;
+            let msg = document.getElementById('cont').value;
+            let img = document.getElementById('profile').files[0];
+            let postID = blogs.length + 1;
+            let newPost = new Object();
+            newPost.title = title;
+            newPost.category = cat;
+            newPost.desc = msg;
+            newPost.id = postID;
+            newPost.profile = URL.createObjectURL(img);
+            blogs.push(newPost);
+            localStorage.setItem('posts', JSON.stringify(blogs));
+            sms.innerHTML = 'Post created please click on close icon.';
+            displayPosts();
+        }
+        toggler.addEventListener('click', () => {
+            menus.classList.toggle('toggled');
         });
     </script>
 </body>

@@ -7,13 +7,20 @@
     font-family: 'Nunito Sans', sans-serif;
     scroll-behavior: smooth;
 }
+
 ::-webkit-scrollbar {
     width: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: #f1f1f1;
 }
-
+.good {
+    color: var(--color-bg);
+}
+.red {
+    color: #f00;
+}
 ::-webkit-scrollbar-thumb {
     background: #c1c1c1;
     border-radius: 10px;
@@ -466,21 +473,25 @@ button#scrollTop {
         }
     }
 }
+
 nav {
     padding: 5px;
     position: sticky;
     justify-content: space-between;
     box-shadow: 0 0 10px 0 rgba($color: #003, $alpha: 0.3);
+
     a.logo {
         color: var(--color-bg);
         font-size: 2em;
         font-weight: 900;
     }
+
     small {
         color: var(--color-bg);
         font-weight: 800;
         font-size: 1.2em !important;
     }
+
     .userProfile {
         font-size: 2em;
         color: var(--color-bg);
@@ -488,7 +499,8 @@ nav {
         cursor: pointer;
     }
 }
-.menuUser {
+
+.menuUser, .menuPost {
     box-shadow: 0 0 10px 0 rgba($color: #000, $alpha: 0.5);
     border-radius: 4px;
     position: absolute;
@@ -496,24 +508,54 @@ nav {
     right: 50px;
     padding: 0.5%;
     display: none;
+
     &.toggled {
         display: block;
     }
-     a {
+
+    a {
         display: block;
         margin: 5px 10px;
 
         &.logout {
             color: #f00;
         }
-     }
+    }
+}
+
+#admin {
+    .sidebar {
+        background: var(--color-bg);
+        width: 240px;
+        height: 100vh;
+        padding: 1%;
+        justify-content: space-between;
+        flex-direction: column;
+        ul li {
+            list-style-type: none;
+            padding: 0.4em 1em;
+            border-radius: 5px;
+            margin: 10px 0;
+            &:hover, &.active {
+                background-color: #fff;
+                a {
+                    color: var(--color-bg);
+                }
+            }
+            a {
+                color: #fff;
+            }
+        }
+    }
 }
 #main-page {
     margin-top: 20px;
     padding: 1% 5%;
+
     .contents {
         flex-direction: column;
-        button{ 
+
+        button {
             cursor: pointer;
             border-style: none;
             box-shadow: 0 0 5px 0 rgba($color: #003, $alpha: 0.3);
@@ -526,14 +568,18 @@ nav {
             color: var(--color-bg);
             font-weight: 600;
         }
+
         img {
             width: 100px;
         }
+
         .more {
             margin-left: 10px;
         }
+
         .single {
             margin-bottom: 10px;
+
             span {
                 float: right;
                 cursor: pointer;
@@ -541,9 +587,44 @@ nav {
         }
     }
 }
+.main-content {
+    padding: 1%;
+}
+.cards {
+    margin-top: 3%;
+    .form-group {
+        margin: 10px 0;
+    }
+    form {
+        input {
+            outline: none;
+            padding: 0.3em 0.5em;
+            border-radius: 2px;
+            border: 1px solid #121257;
+            width: 100%;
+        }
+        button {
+            padding: 0.4em 1em;
+            border-style: none;
+            background-color: var(--color-bg);
+            color: var(--color-white);
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    }
+}
+.cards .card {
+    text-align: center;
+    width: 20%;
+    padding: 1%;
+    margin: 10px 2em;
+    box-shadow: 0 0 10px 0 rgba($color: #003, $alpha: 0.5);
+    border-radius: 10px;
 
-.postForm {
+}
+.postForm, .updateForm {
     display: none;
+
     &.show {
         display: block;
     }
@@ -564,11 +645,14 @@ nav {
         padding: 10px;
         border-radius: 10px 10px 0 0;
     }
+
     .body {
         padding: 10px;
         width: 100%;
         text-align: center;
-        form input, textarea {
+
+        form input,
+        textarea {
             width: 100%;
             outline: none;
             font-size: 16px;
@@ -578,6 +662,7 @@ nav {
             margin-bottom: 5px;
             resize: vertical;
         }
+
         button {
             padding: 0.3em 2em;
             font-size: 18px;
