@@ -38,18 +38,23 @@ if (localStorage.getItem('accounts') != null) {
 let createNewAccount = () => {
     let email = document.getElementById('email').value;
     let pwd = document.getElementById('pass').value;
-    let newAccount = new Object();
-    newAccount.email = email;
-    newAccount.pwd = pwd;
-    accounts.push(newAccount);
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-    console.log(`Account for: ${email} has been created!`);
-    email.value = '';
-    pwd.value = '';
-    document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-    setTimeout(() => {
-        window.location.href = 'allArticles.html';
-    }, 2000);
+    let log = document.getElementById('log');
+    if (email == '' || pwd == '') {
+        log.innerText = "Please fill all fields.";
+    } else {
+        let newAccount = new Object();
+        newAccount.email = email;
+        newAccount.pwd = pwd;
+        accounts.push(newAccount);
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        console.log(`Account for: ${email} has been created!`);
+        email.value = '';
+        pwd.value = '';
+        document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+        setTimeout(() => {
+            window.location.href = 'allArticles.html';
+        }, 2000);
+    }
 }
 let logIntoYourAccount = () => {
     let email = document.getElementById('email').value;
