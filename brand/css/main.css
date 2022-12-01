@@ -435,7 +435,6 @@ button#scrollTop span {
 }
 .main-page .blog .actions {
   margin-top: 1em;
-  margin-left: 1em;
 }
 .main-page .blog .actions a {
   padding: 0.2em 2em;
@@ -450,9 +449,6 @@ button#scrollTop span {
 }
 .main-page .blog .blogTitle {
   font-size: 1.5em;
-}
-.main-page .blog .smallPosts img {
-  width: 100px;
 }
 .main-page .blog .smallPost {
   margin: 10px 0;

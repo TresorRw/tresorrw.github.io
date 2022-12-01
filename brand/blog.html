@@ -25,7 +25,7 @@
     </header>
     <div class="main-page">
         <section id="why" class="bg-white blog flex">
-            <div class="skills w-50">
+            <div class="skills w-75">
                 <div id="bigContent" class="blogData">
                     <div id="bigOne">
                         <img class="w-80" src="assets/big.png" alt="Big image post">
@@ -38,32 +38,56 @@
                     </div>
                 </div>
             </div>
-            <div class="boadrs w-40">
-                <div id="small_pst" class="smallPosts ">
-                </div>
+            <div class="boadrs w-25">
+                <h3>Other Posts</h3>
+                <div id="small_pst" class="smallPosts "></div>
             </div>
         </section>
     </div>
+    <div id="form" class="postForm">
+        <div class="header flex space-between">
+            <h3>ADD COMMENT</h3>
+            <span id="close" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form id="forms">
+                <p id="sms1"></p>
+                <textarea id="cont" cols="30" rows="5" placeholder="What do you think?"></textarea>
+                
+            </form>
+            <button type="button" id="test" onclick="sendComment();">Post Comment</button>
+        </div>
+    </div>
     <script src="js/main.js"></script>
     <script>
+        let user = document.cookie;
         let blogCenter = document.getElementById('bigContent');
         let small_pst = document.getElementById('small_pst');
+        let form = document.getElementById('form');
+        let pg = document.getElementsByClassName('main-page')[0];
+        let clse = document.getElementById('close');
+        let commentBtn = document.getElementById('test');
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             var blogs = [];
         }
-        if (localStorage.getItem('likes') != null) {
+        if (localStorage.getItem('likes') != null ) {
             var likes = JSON.parse(localStorage.getItem('likes'));
         } else {
             var likes = [];
+        }
+        if (localStorage.getItem('comments') != null ) {
+            var comments = JSON.parse(localStorage.getItem('comments'));
+        } else {
+            var comments = [];
         }
 
         let random = Math.floor(Math.random() * blogs.length);
         let blogInfo = blogs[random];
         let blog_id = blogInfo.id;
         let likesPost = likes.findIndex((lk) => lk.post == blog_id);
-        let totalLove = (likesPost <= -1)? 0 : likes[likesPost].count;
+        let totalLove = (likesPost <= -1) ? 0 : likes[likesPost].count;
         blogCenter.innerHTML = `
                     <div id="bigOne">
                     <img class="w-80" src="${blogInfo.profile}" alt="Big image post">
@@ -72,19 +96,53 @@
                         <p>${blogInfo.desc}</p>
                     </div>
                     <div class="actions">
-                        <a href="#" class="like" onclick="likePost(${random})"><i class="fa-regular fa-thumbs-up"></i> ${totalLove}</a>
-                        <a href="#" class="like"><i class="fa-regular fa-message"></i></a>
+                        <a href="#" class="like" onclick="likePost(${random});"><i class="fa-regular fa-thumbs-up"></i> ${totalLove}</a>
+                        <a href="#" id="comment" onclick="commentPost(${random});"><i class="fa-regular fa-message"></i></a>
                         <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
                     </div>
                     </div>`;
+        let btn = document.getElementById('comment');
+        clse.addEventListener('click', () => {
+            form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        let commentPost = (ids) => {
+            form.classList.toggle('show');
+            document.getElementById('forms').innerHTML +=`<input type="hidden" id='ids' value="${ids}">`;
+            if (form.className == 'postForm show') {
+                pg.style.filter = 'blur(3px)';
+            } else {
+                pg.style.filter = '';
+            }
+        }
+        let sendComment = () => {
+            let cmt = document.getElementById('cont').value;
+            let mBox = document.getElementById('sms1');
+            let post_id = document.getElementById('ids').value;
+            if (cmt == '' || post_id == '') {
+                mBox.style.color = "red";
+                mBox.innerHTML = 'Please check your inputs!';
+            } else {
+                let opinion = {
+                    post: post_id,
+                    message: cmt    
+                }
+                comments.push(opinion);
+                localStorage.setItem('comments', JSON.stringify(comments));
+                mBox.style.color = "green";
+                mBox.innerHTML = "Comment Sent! click on close icon";
+            }
+        }
         small_pst.innerHTML = '';
+        let actions = document.getElementsByClassName('actions')[0];
+        if (user == '') {
+            actions.style.display = 'none';
+        }
         for (const pot of blogs) {
             small_pst.innerHTML += `
                     <div class="smallPost flex align-center">
-                        <img src="${pot.profile}" alt="Post image">
-                        <div class="info w-65">
+                        <div class="info">
                             <a href="#">${pot.title}</a>
-                            <p>${pot.desc}.</p>
                         </div>
                     </div>`;
         }
@@ -100,7 +158,7 @@
                 let totalLikes = likes[placeOfPost].count;
                 likes[placeOfPost] = {
                     post: index,
-                    count: totalLikes+1
+                    count: totalLikes + 1
                 }
                 localStorage.setItem('likes', JSON.stringify(likes));
             }

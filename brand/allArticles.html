@@ -39,7 +39,7 @@
         </div>
         <div class="body">
             <form id="forms">
-                <p id="sms"></p>
+                <p id="sms1"></p>
                 <input type="text" placeholder="Blog Title" required id="title">
                 <input type="text" placeholder="Catogory" required id="cat">
                 <input type="file" name="img" id="profile">
@@ -99,7 +99,18 @@
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             console.log('Data not captured!');
-            var blogs = [];
+        }
+        if (localStorage.getItem('likes') != null) {
+            var likes = JSON.parse(localStorage.getItem('likes'));
+        } else {
+            console.log('Data not captured!');
+            var likes = [];
+        }
+        if (localStorage.getItem('comments') != null) {
+            var comments = JSON.parse(localStorage.getItem('comments'));
+        } else {
+            console.log('Data not captured!');
+            var comments = [];
         }
         let deletePost = (index) => {
             blogs.splice(index, 1);
@@ -131,13 +142,26 @@
             postsContainer.innerHTML = '';
             for (let i = 0; i < blogs.length; i++) {
                 let blog = blogs[i];
+                let current = likes.findIndex((lk) => lk.post == blog.id);
+                if (current <= -1) {
+                    var love = 0;
+                } else {
+                    var love = likes[current].count
+                }
                 postsContainer.innerHTML += `<div class="single flex content-center">
                     <img src="${blog.profile}" alt="image">
                     <div class="more w-25">
                         <h4 class="title">${blog.title}</h4>
                         <p>${blog.desc}</p>
-                        <span onclick="updatePost(${i},'${blog.title}', '${blog.desc}', '${blog.category}');" id="postMenu" class="fa-solid fa-pencil good"></span>
-                        <span id="deletePost" onclick="deletePost(${i})" class="fa-solid fa-trash red"></span>
+                        <div class="flex space-between">
+                            <p>${love} <i class="fa-regular fa-thumbs-up"></i></p>
+                            <p> <i class="fa-regular fa-message"></i></p>
+
+                            <div>
+                                <span onclick="updatePost(${i},'${blog.title}', '${blog.desc}', '${blog.category}');" id="postMenu" class="fa-solid fa-pencil good"></span>
+                                <span id="deletePost" onclick="deletePost(${i})" class="fa-solid fa-trash red"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>`;
             }
@@ -163,18 +187,25 @@
             let title = document.getElementById('title').value;
             let cat = document.getElementById('cat').value;
             let msg = document.getElementById('cont').value;
-            let img = document.getElementById('profile').files[0];
-            let postID = blogs.length + 1;
-            let newPost = new Object();
-            newPost.title = title;
-            newPost.category = cat;
-            newPost.desc = msg;
-            newPost.id = postID;
-            newPost.profile = URL.createObjectURL(img);
-            blogs.push(newPost);
-            localStorage.setItem('posts', JSON.stringify(blogs));
-            sms.innerHTML = 'Post created please click on close icon.';
-            displayPosts();
+            let sms1 = document.getElementById('sms1');
+            if (title == '' || cat == '' || msg == '') {
+                sms1.style.color = "red";
+                sms1.innerHTML = "Please fill all fields!";
+            } else {
+                sms1.innerHTML = '';
+                let img = document.getElementById('profile').files[0];
+                let postID = blogs.length;
+                let newPost = new Object();
+                newPost.title = title;
+                newPost.category = cat;
+                newPost.desc = msg;
+                newPost.id = postID;
+                newPost.profile = URL.createObjectURL(img);
+                blogs.push(newPost);
+                localStorage.setItem('posts', JSON.stringify(blogs));
+                sms.innerHTML = 'Post created please click on close icon.';
+                displayPosts();
+            }
         }
         toggler.addEventListener('click', () => {
             menus.classList.toggle('toggled');

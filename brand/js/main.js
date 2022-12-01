@@ -1,13 +1,18 @@
 let header = document.getElementById('top');
 let links = document.getElementsByTagName('li');
-let scrollBtn = document.getElementById('scrollTop');
+let isEmailValid = false;
+
+function ValidateEmail(mail) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
+        isEmailValid = true
+    } else {
+        isEmailValid = false;
+    }
+}
 
 let menus = document.getElementById('menus');
 let sms = document.getElementById('sms');
 
-scrollBtn.addEventListener('click', () => {
-    defaultLoad();
-});
 let defaultLoad = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -42,18 +47,39 @@ let createNewAccount = () => {
     if (email == '' || pwd == '') {
         log.innerHTML = "Please fill all fields.";
     } else {
-        let newAccount = new Object();
-        newAccount.email = email;
-        newAccount.pwd = pwd;
-        accounts.push(newAccount);
-        localStorage.setItem('accounts', JSON.stringify(accounts));
-        console.log(`Account for: ${email} has been created!`);
-        email.value = '';
-        pwd.value = '';
-        document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
-        setTimeout(() => {
-            window.location.href = 'allArticles.html';
-        }, 2000);
+        ValidateEmail(email);
+        if (isEmailValid === true) {
+            let create = false;
+            for (const person of accounts) {
+                console.log('heloo');
+                if (person.email == email) {
+                    log.style.color = "red";
+                    log.innerHTML = "Account already exists! <br /> Go to login"
+                    break;
+                } else {
+                    create = true;
+                }
+            }
+            console.log(create);
+            if (create === true || accounts.length <= 0) {
+                let newAccount = new Object();
+                newAccount.email = email;
+                newAccount.pwd = pwd;
+                accounts.push(newAccount);
+                localStorage.setItem('accounts', JSON.stringify(accounts));
+                email.value = '';
+                pwd.value = '';
+                document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                setTimeout(() => {
+                    window.location.href = 'allArticles.html';
+                }, 2000);
+            } else {
+                log.innerHTML = "Something went wrong!";
+            }
+        } else {
+            log.style.color = "red";
+            log.innerHTML = "Invalid email!";
+        }
     }
 }
 let logIntoYourAccount = () => {

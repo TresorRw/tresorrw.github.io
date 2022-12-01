@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
     <title>MY Brand</title>
 </head>
+
 <body id="body">
     <button id="scrollTop">
         <span class="fa-solid fa-arrow-up-long"></span>
@@ -36,7 +38,8 @@
                 <div class="addresss">
                     <p><span class="fa-solid fa-location-dot"></span> Kicukiro, Kigali, Rwanda</p>
                     <p><span class="fa-solid fa-phone"></span> <a href="tel:+250790904527"> +250 790 904 527</a></p>
-                    <p><span class="fa-solid fa-envelope"></span> <a href="mailto:alaintresocyusa683@gmail.com"> alaintresorcyusa683@gmail.com</a></p>
+                    <p><span class="fa-solid fa-envelope"></span> <a href="mailto:alaintresocyusa683@gmail.com">
+                            alaintresorcyusa683@gmail.com</a></p>
                 </div>
                 <div class="social_icons">
                     <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
@@ -107,13 +110,13 @@
             <div class="boadrs w-40 flex content-center">
                 <div class="board">
                     <h2>2+ <br><span>Years</span></h2>
-                </div>    
+                </div>
                 <div class="board">
                     <h2>7+ <br><span>Tools</span></h2>
                 </div>
-                <div class="board" >
+                <div class="board">
                     <h2>7+ <br><span>Projects</span></h2>
-                </div>    
+                </div>
             </div>
         </section>
         <section id="who-am-i" class="bg-white flex align-center content-center">
@@ -122,10 +125,13 @@
             </div>
             <div class="more_info w-55">
                 <h4>More about <span>Tresor</span></h4>
-                <p>Alain Tresor CYUSA is an enthusiastic world class software developer with vision of solving most daily life problems that society is facing with.</p>
+                <p>Alain Tresor CYUSA is an enthusiastic world class software developer with vision of solving most
+                    daily life problems that society is facing with.</p>
                 <br>
-                <p id="ls">I'm an experienced software developer  who constantly seeks out innovative solutions to everyday problems.</p>
-                <a target="_blank" href="https://tresor-cv.vercel.app/CYUSA%20Alain%20Tresor%20-CV.pdf" download class="btn-download">Download CV <span class="fa-solid fa-download"></span> </a>
+                <p id="ls">I'm an experienced software developer who constantly seeks out innovative solutions to
+                    everyday problems.</p>
+                <a target="_blank" href="https://tresor-cv.vercel.app/CYUSA%20Alain%20Tresor%20-CV.pdf" download
+                    class="btn-download">Download CV <span class="fa-solid fa-download"></span> </a>
             </div>
         </section>
         <section id="sign-in" class="bg-white flex align-center space-between">
@@ -166,7 +172,8 @@
                     </div>
                     <div class="input-group">
                         <label for="msg">Message*</label>
-                        <textarea name="" id="msg" class="w-80" rows="3" required placeholder="Lets start here"></textarea>
+                        <textarea name="" id="msg" class="w-80" rows="3" required
+                            placeholder="Lets start here"></textarea>
                     </div>
                     <button type="submit" id="message">Send</button>
                 </form>
@@ -175,6 +182,10 @@
     </div>
     <script src="js/main.js"></script>
     <script>
+        let scrollBtn = document.getElementById('scrollTop');
+        scrollBtn.addEventListener('click', () => {
+            defaultLoad();
+        });
         let sendBn = document.getElementById('message');
         sendBn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -203,4 +214,5 @@
         }
     </script>
 </body>
+
 </html>
