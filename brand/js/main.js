@@ -38,9 +38,9 @@ if (localStorage.getItem('accounts') != null) {
 let createNewAccount = () => {
     let email = document.getElementById('email').value;
     let pwd = document.getElementById('pass').value;
-    let log = document.getElementById('log');
+    let log = document.getElementById('logs');
     if (email == '' || pwd == '') {
-        log.innerText = "Please fill all fields.";
+        log.innerHTML = "Please fill all fields.";
     } else {
         let newAccount = new Object();
         newAccount.email = email;
