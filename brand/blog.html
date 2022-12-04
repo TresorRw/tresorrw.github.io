@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,19 +9,17 @@
     <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
     <title>BLOG :: MY Brand</title>
 </head>
-
 <body id="body">
     <header id="top" class="scrolled">
         <a href="index.html" class="nav-logo">Tresor</a>
-        <ul>
-            <li><a onclick="defaultLoad()" href="index.html">Home</a></li>
-            <li><a href="index.html#why">Why me?</a></li>
-            <li><a href="index.html#who-am-i">About me</a></li>
-            <li class="active"><a href="blog.html">Blog</a></li>
-            <li><a href="index.html#sign-in">Sign in</a></li>
-            <li class="special"><a href="index.html#contact">Send inquiry</a></li>
-        </ul>
+        <ul id="linkManager"></ul>
+        <div class="togglerIcon" id="navIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
     </header>
+    <div class="menuTog" id="mn"></div>
     <div class="main-page">
         <section id="why" class="bg-white blog flex">
             <div class="skills w-75">
@@ -53,7 +50,7 @@
             <form id="forms">
                 <p id="sms1"></p>
                 <textarea id="cont" cols="30" rows="5" placeholder="What do you think?"></textarea>
-                
+
             </form>
             <button type="button" id="test" onclick="sendComment();">Post Comment</button>
         </div>
@@ -66,18 +63,38 @@
         let form = document.getElementById('form');
         let pg = document.getElementsByClassName('main-page')[0];
         let clse = document.getElementById('close');
+        let linkManager= document.getElementById('linkManager');
         let commentBtn = document.getElementById('test');
+        if (user != '') {
+            mn.innerHTML = `<a href="#" onclick="logoutUSer();" style="color: red;">Logout</a>`;
+            linkManager.innerHTML = `<li><a href="#" onclick="logoutUSer();">Logout</a></li>`;
+        } else {
+            mn.innerHTML = `
+                <a href="index.html#main">Home</a>
+                <a href="index.html#why">Why me?</a>
+                <a href="index.html#who-am-i">About</a>
+                <a href="index.html#sign-in">Sign in</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#contact">Contact</a>
+            `;
+            linkManager.innerHTML = `<li><a onclick="defaultLoad()" href="index.html">Home</a></li>
+            <li><a href="index.html#why">Why me?</a></li>
+            <li><a href="index.html#who-am-i">About me</a></li>
+            <li class="active"><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#sign-in">Sign in</a></li>
+            <li class="special"><a href="index.html#contact">Send inquiry</a></li>`;
+        }
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             var blogs = [];
         }
-        if (localStorage.getItem('likes') != null ) {
+        if (localStorage.getItem('likes') != null) {
             var likes = JSON.parse(localStorage.getItem('likes'));
         } else {
             var likes = [];
         }
-        if (localStorage.getItem('comments') != null ) {
+        if (localStorage.getItem('comments') != null) {
             var comments = JSON.parse(localStorage.getItem('comments'));
         } else {
             var comments = [];
@@ -108,7 +125,7 @@
         });
         let commentPost = (ids) => {
             form.classList.toggle('show');
-            document.getElementById('forms').innerHTML +=`<input type="hidden" id='ids' value="${ids}">`;
+            document.getElementById('forms').innerHTML += `<input type="hidden" id='ids' value="${ids}">`;
             if (form.className == 'postForm show') {
                 pg.style.filter = 'blur(3px)';
             } else {
@@ -125,7 +142,8 @@
             } else {
                 let opinion = {
                     post: post_id,
-                    message: cmt    
+                    message: cmt,
+                    userID: document.cookie.slice(5)
                 }
                 comments.push(opinion);
                 localStorage.setItem('comments', JSON.stringify(comments));
@@ -136,7 +154,11 @@
         small_pst.innerHTML = '';
         let actions = document.getElementsByClassName('actions')[0];
         if (user == '') {
-            actions.style.display = 'none';
+            actions.innerHTML = `
+            <a href="#" class="like"><i class="fa-regular fa-thumbs-up"></i> ${totalLove}</a>
+            <a href="#" ><i class="fa-regular fa-message"></i></a>
+            <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
+            `;
         }
         for (const pot of blogs) {
             small_pst.innerHTML += `
@@ -152,13 +174,15 @@
                 let newLike = new Object();
                 newLike.post = index;
                 newLike.count = 1;
+                newLike.userID = document.cookie.slice(5);
                 likes.push(newLike);
                 localStorage.setItem('likes', JSON.stringify(likes));
             } else {
                 let totalLikes = likes[placeOfPost].count;
                 likes[placeOfPost] = {
                     post: index,
-                    count: totalLikes + 1
+                    count: totalLikes + 1,
+                    userID: document.cookie.slice(5)
                 }
                 localStorage.setItem('likes', JSON.stringify(likes));
             }

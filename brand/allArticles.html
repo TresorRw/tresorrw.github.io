@@ -42,7 +42,6 @@
                 <p id="sms1"></p>
                 <input type="text" placeholder="Blog Title" required id="title">
                 <input type="text" placeholder="Catogory" required id="cat">
-                <input type="file" name="img" id="profile">
                 <textarea id="cont" cols="30" rows="5" placeholder="More"></textarea>
                 <button type="submit" id="send">Post</button>
             </form>
@@ -59,7 +58,6 @@
                 <input type="hidden" name="id" id="ids">
                 <input type="text" placeholder="Blog Title" required id="n_t">
                 <input type="text" placeholder="Catogory" required id="n_c">
-                <input type="file" name="img" id="prfl">
                 <textarea id="n_desc" cols="30" rows="5" placeholder="More"></textarea>
                 <button type="submit" id="update">Save Changes</button>
             </form>
@@ -67,6 +65,9 @@
     </div>
     <script src="js/main.js"></script>
     <script>
+        if (document.cookie == '') {
+            window.location.href = 'index.html#sign-in';
+        }
         let btn = document.getElementById('new');
         let form = document.getElementById('form');
         let up_form = document.getElementById('updateForm');
@@ -83,13 +84,12 @@
             let title = document.getElementById('n_t').value;
             let cat = document.getElementById('n_c').value;
             let msg = document.getElementById('n_desc').value;
-            let img = document.getElementById('prfl').files[0];
             blogs[id] = {
                 id: Number(id),
                 title: title,
                 category: cat,
                 desc: msg,
-                profile: URL.createObjectURL(img)
+                profile: 'https://loremflickr.com/320/240'
             }
             localStorage.setItem('posts', JSON.stringify(blogs));
             sms.innerHTML = 'Post updated please click on close icon.';
@@ -98,18 +98,16 @@
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
-            console.log('Data not captured!');
+            var blogs = [];
         }
         if (localStorage.getItem('likes') != null) {
             var likes = JSON.parse(localStorage.getItem('likes'));
         } else {
-            console.log('Data not captured!');
             var likes = [];
         }
         if (localStorage.getItem('comments') != null) {
             var comments = JSON.parse(localStorage.getItem('comments'));
         } else {
-            console.log('Data not captured!');
             var comments = [];
         }
         let deletePost = (index) => {
@@ -193,14 +191,14 @@
                 sms1.innerHTML = "Please fill all fields!";
             } else {
                 sms1.innerHTML = '';
-                let img = document.getElementById('profile').files[0];
                 let postID = blogs.length;
                 let newPost = new Object();
                 newPost.title = title;
                 newPost.category = cat;
                 newPost.desc = msg;
                 newPost.id = postID;
-                newPost.profile = URL.createObjectURL(img);
+                newPost.profile = 'https://loremflickr.com/400/400?random=1';
+                newPost.userID = document.cookie.slice(5);
                 blogs.push(newPost);
                 localStorage.setItem('posts', JSON.stringify(blogs));
                 sms.innerHTML = 'Post created please click on close icon.';

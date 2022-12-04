@@ -41,8 +41,29 @@ a {
   text-decoration: none;
 }
 
+.menuTog {
+  display: none;
+  width: 200px;
+  max-width: 200px;
+  background-color: #fff;
+  border-radius: 5px;
+  position: fixed;
+  padding: 10px;
+  top: 70px;
+  right: 15%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
+}
+.menuTog.show {
+  display: block;
+}
+.menuTog a {
+  color: var(--color-bg);
+  display: block;
+  font-weight: 600;
+}
+
 header {
-  width: 100%;
+  width: 100vw;
   padding: 10px;
   background-color: var(--color-bg);
   display: flex;
@@ -54,6 +75,9 @@ header {
 header.scrolled {
   box-shadow: 0 5px 6px 0 rgba(0, 0, 51, 0.3);
   background-color: var(--color-white);
+}
+header.scrolled .togglerIcon div {
+  background-color: var(--color-bg);
 }
 header.scrolled .nav-logo {
   color: var(--color-bg);
@@ -80,6 +104,24 @@ header .nav-logo {
   color: var(--color-white);
   margin-left: 1%;
 }
+header .togglerIcon {
+  display: none;
+  cursor: pointer;
+  width: 40px;
+  height: 30px;
+  padding: 5px;
+  border-radius: 3px;
+}
+header .togglerIcon div {
+  background-color: var(--color-white);
+  width: 100%;
+  height: 3px;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+header .togglerIcon.ys div {
+  background-color: var(--color-bg);
+}
 header li.special,
 header li.active {
   background-color: var(--color-white);
@@ -102,24 +144,6 @@ header ul li a {
 header ul li a:hover {
   background-color: var(--color-white);
   color: var(--color-bg);
-}
-
-button#scrollTop {
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-  background-color: var(--color-bg);
-  color: var(--color-white);
-  display: none;
-  position: fixed;
-  bottom: 20px;
-  right: 50px;
-  border-radius: 100%;
-  border-style: none;
-  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.5);
-}
-button#scrollTop span {
-  font-size: 1.5em;
 }
 
 .w-100 {
@@ -457,6 +481,13 @@ button#scrollTop span {
   margin-left: 10px;
 }
 
+#why,
+#who-am-i,
+#sign-in,
+#contact {
+  height: 100vh !important;
+}
+
 nav {
   padding: 5px;
   position: -webkit-sticky;
@@ -481,7 +512,8 @@ nav .userProfile {
   cursor: pointer;
 }
 
-.menuUser, .menuPost {
+.menuUser,
+.menuPost {
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
   border-radius: 4px;
   position: absolute;
@@ -490,14 +522,17 @@ nav .userProfile {
   padding: 0.5%;
   display: none;
 }
-.menuUser.toggled, .menuPost.toggled {
+.menuUser.toggled,
+.menuPost.toggled {
   display: block;
 }
-.menuUser a, .menuPost a {
+.menuUser a,
+.menuPost a {
   display: block;
   margin: 5px 10px;
 }
-.menuUser a.logout, .menuPost a.logout {
+.menuUser a.logout,
+.menuPost a.logout {
   color: #f00;
 }
 
@@ -585,6 +620,10 @@ nav .userProfile {
   cursor: pointer;
 }
 
+form a {
+  display: none;
+}
+
 .cards .card {
   text-align: center;
   width: 20%;
@@ -594,7 +633,12 @@ nav .userProfile {
   border-radius: 10px;
 }
 
-.postForm, .updateForm {
+#sign-in .skills h3 {
+  display: none !important;
+}
+
+.postForm,
+.updateForm {
   display: none;
   width: 400px;
   max-width: 100%;
@@ -607,22 +651,26 @@ nav .userProfile {
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
 }
-.postForm.show, .updateForm.show {
+.postForm.show,
+.updateForm.show {
   display: block;
 }
-.postForm .header, .updateForm .header {
+.postForm .header,
+.updateForm .header {
   background-color: var(--color-bg);
   color: var(--color-white);
   padding: 10px;
   border-radius: 10px 10px 0 0;
 }
-.postForm .body, .updateForm .body {
+.postForm .body,
+.updateForm .body {
   padding: 10px;
   width: 100%;
   text-align: center;
 }
 .postForm .body form input,
-.postForm .body textarea, .updateForm .body form input,
+.postForm .body textarea,
+.updateForm .body form input,
 .updateForm .body textarea {
   width: 100%;
   outline: none;
@@ -633,7 +681,8 @@ nav .userProfile {
   margin-bottom: 5px;
   resize: vertical;
 }
-.postForm .body button, .updateForm .body button {
+.postForm .body button,
+.updateForm .body button {
   padding: 0.3em 2em;
   font-size: 18px;
   background-color: var(--color-bg);
@@ -641,4 +690,177 @@ nav .userProfile {
   border-style: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.singleView {
+  display: block;
+  margin-top: 3%;
+  width: 100%;
+  padding: 5%;
+}
+.singleView img {
+  max-width: 100%;
+}
+
+@media screen and (max-width: 1060px) {
+  .main-page #contact {
+    background-image: unset !important;
+    display: block !important;
+    background-color: var(--color-white) !important;
+  }
+  .main-page #contact h1 {
+    font-size: 2em !important;
+  }
+  .main-page #contact .skills, .main-page #contact .boadrs {
+    margin-top: 2em !important;
+    width: 100% !important;
+  }
+  .main-page #contact .skills form label {
+    color: #000 !important;
+  }
+  .main-page #contact .skills form button {
+    background-color: var(--color-bg) !important;
+    color: var(--color-white) !important;
+    margin: 0 !important;
+  }
+  #sign-in,
+#contact {
+    background-image: unset !important;
+  }
+  #sign-in .boadrs {
+    width: 50%;
+  }
+  #sign-in .boadrs h2,
+#sign-in .boadrs h1 {
+    font-size: 2em !important;
+  }
+  #sign-in .boadrs h1,
+#sign-in .boadrs p,
+#sign-in .boadrs h2 {
+    color: var(--color-bg) !important;
+  }
+  .btn-login {
+    color: var(--color-white) !important;
+    background-color: var(--color-bg) !important;
+  }
+  #main {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-direction: column !important;
+  }
+  #main h1 {
+    font-size: 2em !important;
+  }
+  #main .bg_image {
+    width: 50% !important;
+    text-align: center !important;
+  }
+  #why, #who-am-i {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    flex-direction: column !important;
+  }
+  #why .bg_image, #who-am-i .bg_image {
+    width: 60% !important;
+  }
+  #why .skills, #who-am-i .skills {
+    width: 50% !important;
+  }
+  #why .boadrs, #who-am-i .boadrs {
+    margin-top: 5%;
+  }
+}
+@media screen and (max-width: 920px) {
+  .bg-image {
+    width: 100% !important;
+  }
+  .btn-login {
+    color: var(--color-white) !important;
+    background-color: var(--color-bg) !important;
+  }
+  #why, #sign-in {
+    display: block !important;
+  }
+  #why .skills, #why .boadrs, #sign-in .skills, #sign-in .boadrs {
+    width: 100% !important;
+  }
+  #why .skills .progress, #sign-in .skills .progress {
+    width: 100% !important;
+  }
+  #why .boadrs .board, #sign-in .boadrs .board {
+    width: 40% !important;
+  }
+  #why .boadrs .board h2, #sign-in .boadrs .board h2 {
+    font-size: 1.2em !important;
+  }
+  #sign-in .skills {
+    width: 100% !important;
+    margin-bottom: 15% !important;
+  }
+  #sign-in .skills form {
+    width: 120% !important;
+  }
+  #sign-in .skills form button {
+    margin: 0 !important;
+  }
+  #sign-in .boadrs {
+    text-align: center;
+  }
+  #sign-in .boadrs .btn-login {
+    margin: 0 !important;
+  }
+  li {
+    display: none !important;
+  }
+  .togglerIcon {
+    display: block !important;
+  }
+}
+@media screen and (max-width: 640px) {
+  #posts .single {
+    display: block !important;
+  }
+  #posts .single img {
+    width: 100% !important;
+  }
+  #posts .single .more {
+    width: 50% !important;
+  }
+  .actions a {
+    display: block !important;
+    width: 40% !important;
+    margin: 5px 0 !important;
+  }
+  #contact h1 {
+    color: #000 !important;
+  }
+  form a {
+    display: inline !important;
+  }
+  #sign-in .skills h3 {
+    display: block !important;
+    margin-bottom: 1em !important;
+  }
+  #sign-in .boadrs {
+    display: none !important;
+  }
+  .addresss p span {
+    display: none !important;
+  }
+  #main {
+    display: block !important;
+    text-align: center !important;
+    height: auto !important;
+  }
+  #main .bg_image, #main .bg_info {
+    width: 100% !important;
+  }
+  #main h3 {
+    display: none !important;
+  }
+  #who-am-i {
+    display: block !important;
+  }
 }/*# sourceMappingURL=main.css.map */

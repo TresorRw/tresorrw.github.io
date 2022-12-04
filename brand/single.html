@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <header id="top" class="scrolled">
+        <a href="index.html" class="nav-logo">Tresor</a>
+        <ul id="linkManager"></ul>
+        <div class="togglerIcon" id="navIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+    <div class="menuTog" id="mn"></div>
+    <section class="singleView">
+        <img src="assets/notfound.png" alt="">
+    </section>
+    <script>
+        let user = document.cookie.slice(5);
+        let header = document.getElementById('top');
+        let mn = document.getElementById('mn');
+        let singleView = document.querySelector('.singleView');
+        let urlString = window.location.href;
+        let paramString = urlString.split('?')[1];
+        let queryString = new URLSearchParams(paramString);
+        if (localStorage.getItem('posts') != null) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+        } else {
+            var blogs = [];
+        }
+        let logoutUSer = () => {
+            document.cookie = `user=${user}; expires=Thu, 20 Dec 2020 12:00:00 UTC; path="/brand"`;
+            window.location.href = 'index.html';
+        }
+        for (let pair of queryString.entries()) {
+            var post_id = pair[1];
+        }
+        let isAvailable = false,
+            display = false;
+        for (const post of blogs) {
+            if (post.id == (post_id - 1)) {
+                display = true;
+                singleView.innerHTML = `
+                <h3>${post.title}</h3>
+                <img src="${post.profile}" alt="Blog post">
+                <p>${post.desc}</p>
+                `;
+            } else {
+                isAvailable = false;
+            }
+        }
+        if (display === false) {
+            singleView.innerHTML = `<img src="assets/notfound.png">`;
+        }
+        if (user != '') {
+            mn.innerHTML = `<a href="#" onclick="logoutUSer();" style="color: red;">Logout</a>`;
+            linkManager.innerHTML = `<li><a href="#" onclick="logoutUSer();">Logout</a></li>`;
+        } else {
+            mn.innerHTML = `
+                <a href="index.html#main">Home</a>
+                <a href="index.html#why">Why me?</a>
+                <a href="index.html#who-am-i">About</a>
+                <a href="index.html#sign-in">Sign in</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#contact">Contact</a>
+            `;
+            linkManager.innerHTML = `<li><a onclick="defaultLoad()" href="index.html">Home</a></li>
+            <li><a href="index.html#why">Why me?</a></li>
+            <li><a href="index.html#who-am-i">About me</a></li>
+            <li class="active"><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#sign-in">Sign in</a></li>
+            <li class="special"><a href="index.html#contact">Send inquiry</a></li>`;
+        }
+    </script>
+</body>
+
+</html>

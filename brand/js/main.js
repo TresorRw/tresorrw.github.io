@@ -1,6 +1,14 @@
 let header = document.getElementById('top');
+let mn = document.getElementById('mn');
 let links = document.getElementsByTagName('li');
+let loggedUser = document.cookie.slice(5);
+let menus = document.getElementById('menus');
+let sms = document.getElementById('sms');
 let isEmailValid = false;
+let logoutUSer = () => {
+    document.cookie = `user=${loggedUser}; expires=Thu, 20 Dec 2020 12:00:00 UTC; path="/brand"`;
+    window.location.href = 'index.html';
+}
 
 function ValidateEmail(mail) {
     if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mail)) {
@@ -10,22 +18,11 @@ function ValidateEmail(mail) {
     }
 }
 
-let menus = document.getElementById('menus');
-let sms = document.getElementById('sms');
-
 let defaultLoad = () => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
 }
-window.onscroll = () => {
-    if (window.scrollY > 100) {
-        scrollBtn.style.display = 'block';
-        header.classList.add('scrolled');
-    } else {
-        header.classList.remove('scrolled');
-        scrollBtn.style.display = 'none';
-    }
-}
+
 for (const lnk of links) {
     var current = document.getElementsByClassName('active');
     lnk.addEventListener('click', () => {
@@ -65,13 +62,14 @@ let createNewAccount = () => {
                 let newAccount = new Object();
                 newAccount.email = email;
                 newAccount.pwd = pwd;
+                newAccount.userID = accounts.length + 1;
                 accounts.push(newAccount);
                 localStorage.setItem('accounts', JSON.stringify(accounts));
-                email.value = '';
-                pwd.value = '';
-                document.cookie = `user=${email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                email = '';
+                pwd = '';
+                document.cookie = `user=${accounts.length + 1}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                 setTimeout(() => {
-                    window.location.href = 'allArticles.html';
+                    window.location.href = 'blog.html';
                 }, 2000);
             } else {
                 log.innerHTML = "Something went wrong!";
@@ -92,18 +90,18 @@ let logIntoYourAccount = () => {
     } else {
         for (const person of accounts) {
             if (person.email == email && person.pwd == pwd) {
-                if (person.email == 'alaintresorcyusa683@gmail.com') {
+                if (person.userID == '1') {
                     sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Being redirected.';
-                    document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                    document.cookie = `user=${person.userID}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                     setTimeout(() => {
-                        window.location.href = 'admin.html';
+                        window.location.href = 'allArticles.html';
                     }, 2000);
                 } else {
-                    document.cookie = `user=${person.email}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                    document.cookie = `user=${person.userID}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
                     sms.style.color = 'green';
                     sms.innerHTML = '<i class="fa-solid fa-square-check"></i> Logged in';
                     setTimeout(() => {
-                        window.location.href = 'allArticles.html';
+                        window.location.href = 'blog.html';
                     }, 1000);
                 }
             } else {
