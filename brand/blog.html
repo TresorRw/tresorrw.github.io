@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,6 +10,7 @@
     <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
     <title>BLOG :: MY Brand</title>
 </head>
+
 <body id="body">
     <header id="top" class="scrolled">
         <a href="index.html" class="nav-logo">Tresor</a>
@@ -63,8 +65,12 @@
         let form = document.getElementById('form');
         let pg = document.getElementsByClassName('main-page')[0];
         let clse = document.getElementById('close');
-        let linkManager= document.getElementById('linkManager');
+        let linkManager = document.getElementById('linkManager');
         let commentBtn = document.getElementById('test');
+        let navIcon = document.getElementById('navIcon');
+        navIcon.addEventListener('click', () => {
+            mn.classList.toggle('show');
+        })
         if (user != '') {
             mn.innerHTML = `<a href="#" onclick="logoutUSer();" style="color: red;">Logout</a>`;
             linkManager.innerHTML = `<li><a href="#" onclick="logoutUSer();">Logout</a></li>`;
@@ -109,7 +115,7 @@
                     <div id="bigOne">
                     <img class="w-80" src="${blogInfo.profile}" alt="Big image post">
                     <div class="info">
-                        <a class="blogTitle" href="#">${blogInfo.title}</a>
+                        <a class="blogTitle" href="single.html?post=${blogInfo.id}">${blogInfo.title}</a>
                         <p>${blogInfo.desc}</p>
                     </div>
                     <div class="actions">
@@ -164,7 +170,7 @@
             small_pst.innerHTML += `
                     <div class="smallPost flex align-center">
                         <div class="info">
-                            <a href="#">${pot.title}</a>
+                            <a href="single.html?post=${pot.id}">${pot.title}</a>
                         </div>
                     </div>`;
         }
