@@ -38,17 +38,17 @@ if (localStorage.getItem('accounts') != null) {
 }
 
 let createNewAccount = () => {
+    let names = document.getElementById('names').value;
     let email = document.getElementById('email').value;
     let pwd = document.getElementById('pass').value;
     let log = document.getElementById('logs');
-    if (email == '' || pwd == '') {
+    if (email == '' || pwd == '' || names == '') {
         log.innerHTML = "Please fill all fields.";
     } else {
         ValidateEmail(email);
         if (isEmailValid === true) {
             let create = false;
             for (const person of accounts) {
-                console.log('heloo');
                 if (person.email == email) {
                     log.style.color = "red";
                     log.innerHTML = "Account already exists! <br /> Go to login"
@@ -57,17 +57,17 @@ let createNewAccount = () => {
                     create = true;
                 }
             }
-            console.log(create);
             if (create === true || accounts.length <= 0) {
                 let newAccount = new Object();
                 newAccount.email = email;
                 newAccount.pwd = pwd;
+                newAccount.uname = names;
                 newAccount.userID = accounts.length + 1;
                 accounts.push(newAccount);
                 localStorage.setItem('accounts', JSON.stringify(accounts));
-                email = '';
-                pwd = '';
-                document.cookie = `user=${accounts.length + 1}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                document.cookie = `user=${accounts.length}; expires=Thu, 20 Dec 2022 12:00:00 UTC`;
+                log.style.color = "green";
+                    log.innerHTML = "Account created!";
                 setTimeout(() => {
                     window.location.href = 'blog.html';
                 }, 2000);
@@ -104,6 +104,7 @@ let logIntoYourAccount = () => {
                         window.location.href = 'blog.html';
                     }, 1000);
                 }
+                break;
             } else {
                 sms.innerHTML = 'No account found';
             }

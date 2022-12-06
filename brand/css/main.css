@@ -591,7 +591,37 @@ nav .userProfile {
   margin-left: 10px;
 }
 #main-page .contents .single {
+  position: relative;
   margin-bottom: 10px;
+}
+#main-page .contents .single img {
+  border-radius: 5px 0 0 5px;
+}
+#main-page .contents .single #showSet {
+  cursor: pointer;
+}
+#main-page .contents .single .postStg {
+  display: none;
+  position: absolute;
+  right: 27%;
+  bottom: 1px;
+  z-index: 1;
+  background-color: #fff;
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.5);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+#main-page .contents .single .postStg.set {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+#main-page .contents .single .postStg p {
+  text-align: left;
+  font-size: 14px;
+}
+#main-page .contents .single .postStg a {
+  display: block;
 }
 #main-page .contents .single span {
   float: right;
@@ -696,14 +726,66 @@ form a {
   cursor: pointer;
 }
 
+.dash-stats {
+  justify-content: center;
+  margin-top: -6em;
+  margin-left: 6em;
+}
+.dash-stats .singleStat {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+  margin: 10px 15px;
+  width: 100px;
+  max-width: 40%;
+}
+
 .singleView {
-  display: block;
+  display: flex;
+  justify-content: center;
   margin-top: 3%;
   width: 100%;
   padding: 5%;
 }
-.singleView img {
-  max-width: 100%;
+.singleView .blogContent {
+  width: 65%;
+}
+.singleView .blogContent img {
+  width: 100%;
+}
+.singleView .blogContent .stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.singleView .blogContent .stats p {
+  font-size: 16px;
+  color: var(--color-bg);
+  border: 2px solid var(--color-bg);
+  border-radius: 3px;
+  padding: 3px 15px;
+}
+.singleView .blogComment {
+  width: 30%;
+  margin-left: 3%;
+}
+.singleView .blogComment .comment {
+  margin: 10px 0;
+}
+.singleView .blogComment .comment form input {
+  width: 80%;
+  padding: 0.4em 1em;
+  outline: none;
+  border-style: none;
+  border-bottom: 2px solid var(--color-bg);
+}
+.singleView .blogComment .comment form button {
+  border-style: none;
+  cursor: pointer;
+  background: transparent;
+  font-size: 1em;
+  color: var(--color-bg);
 }
 
 @media screen and (max-width: 1060px) {

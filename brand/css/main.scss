@@ -613,8 +613,37 @@ nav {
         }
 
         .single {
+            img {
+                border-radius: 5px 0 0 5px;
+            }
+            position: relative;
             margin-bottom: 10px;
-
+            #showSet {
+                cursor: pointer;
+            }
+            .postStg {
+                display: none;
+                &.set {
+                    display: flex;
+                    align-items: flex-start;
+                    flex-direction: column;
+                }
+                p{
+                    text-align: left;
+                    font-size: 14px;
+                }
+                position: absolute;
+                right:27%;
+                bottom: 1px;
+                z-index: 1;
+                background-color: #fff;
+                box-shadow: 0 0 2px 0 rgba($color: #000, $alpha: 0.5);
+                padding: 5px 10px;
+                border-radius: 5px;
+                a {
+                    display: block;
+                }
+            }
             span {
                 float: right;
                 cursor: pointer;
@@ -724,13 +753,64 @@ form a {
         }
     }
 }
+.dash-stats {
+    justify-content: center;
+    margin-top: -6em;
+    margin-left: 6em;
+    .singleStat {
+        box-shadow: 0 0 10px 0 rgba($color: #000, $alpha: 0.5);
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        margin: 10px 15px;
+        width: 100px;
+        max-width: 40%;
+    }
+}
 .singleView {
-    display: block;
+    display: flex;
+    justify-content: center;
     margin-top: 3%;
     width: 100%;
     padding: 5%;
-    img {
-        max-width: 100%;
+    .blogContent {
+        width: 65%;
+        img {
+            width: 100%;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            p {
+                font-size: 16px;
+                color: var(--color-bg);
+                border: 2px solid var(--color-bg);
+                border-radius: 3px;
+                padding: 3px 15px;
+            }
+        }
+    }
+    .blogComment {
+        width: 30%;
+        margin-left: 3%;
+        .comment {
+            margin: 10px 0;
+            form input {
+                width: 80%;
+                padding: 0.4em 1em;
+                outline: none;
+                border-style: none;
+                border-bottom: 2px solid var(--color-bg);
+            }
+            form button {
+                border-style: none;
+                cursor: pointer;
+                background: transparent;
+                font-size: 1em;
+                color: var(--color-bg);
+            }
+        }
     }
 }
 @media screen and (max-width: 1060px) {

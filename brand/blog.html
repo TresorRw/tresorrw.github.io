@@ -43,20 +43,6 @@
             </div>
         </section>
     </div>
-    <div id="form" class="postForm">
-        <div class="header flex space-between">
-            <h3>ADD COMMENT</h3>
-            <span id="close" class="fa-solid fa-close"></span>
-        </div>
-        <div class="body">
-            <form id="forms">
-                <p id="sms1"></p>
-                <textarea id="cont" cols="30" rows="5" placeholder="What do you think?"></textarea>
-
-            </form>
-            <button type="button" id="test" onclick="sendComment();">Post Comment</button>
-        </div>
-    </div>
     <script src="js/main.js"></script>
     <script>
         let user = document.cookie;
@@ -64,7 +50,6 @@
         let small_pst = document.getElementById('small_pst');
         let form = document.getElementById('form');
         let pg = document.getElementsByClassName('main-page')[0];
-        let clse = document.getElementById('close');
         let linkManager = document.getElementById('linkManager');
         let commentBtn = document.getElementById('test');
         let navIcon = document.getElementById('navIcon');
@@ -111,6 +96,12 @@
         let blog_id = blogInfo.id;
         let likesPost = likes.findIndex((lk) => lk.post == blog_id);
         let totalLove = (likesPost <= -1) ? 0 : likes[likesPost].count;
+        let totComments = 0;
+        for (const ps of comments) {
+            if (ps.post == blog_id) {
+                totComments = totComments + 1;
+            }
+        }
         blogCenter.innerHTML = `
                     <div id="bigOne">
                     <img class="w-80" src="${blogInfo.profile}" alt="Big image post">
@@ -120,43 +111,10 @@
                     </div>
                     <div class="actions">
                         <a href="#" class="like" onclick="likePost(${random});"><i class="fa-regular fa-thumbs-up"></i> ${totalLove}</a>
-                        <a href="#" id="comment" onclick="commentPost(${random});"><i class="fa-regular fa-message"></i></a>
+                        <a href="#" id="comment" ><i class="fa-regular fa-message"></i> ${totComments}</a>
                         <a href="#" class="like"><i class="fa-regular fa-share-from-square"></i></a>
                     </div>
                     </div>`;
-        let btn = document.getElementById('comment');
-        clse.addEventListener('click', () => {
-            form.classList.remove('show');
-            pg.style.filter = '';
-        });
-        let commentPost = (ids) => {
-            form.classList.toggle('show');
-            document.getElementById('forms').innerHTML += `<input type="hidden" id='ids' value="${ids}">`;
-            if (form.className == 'postForm show') {
-                pg.style.filter = 'blur(3px)';
-            } else {
-                pg.style.filter = '';
-            }
-        }
-        let sendComment = () => {
-            let cmt = document.getElementById('cont').value;
-            let mBox = document.getElementById('sms1');
-            let post_id = document.getElementById('ids').value;
-            if (cmt == '' || post_id == '') {
-                mBox.style.color = "red";
-                mBox.innerHTML = 'Please check your inputs!';
-            } else {
-                let opinion = {
-                    post: post_id,
-                    message: cmt,
-                    userID: document.cookie.slice(5)
-                }
-                comments.push(opinion);
-                localStorage.setItem('comments', JSON.stringify(comments));
-                mBox.style.color = "green";
-                mBox.innerHTML = "Comment Sent! click on close icon";
-            }
-        }
         small_pst.innerHTML = '';
         let actions = document.getElementsByClassName('actions')[0];
         if (user == '') {

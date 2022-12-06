@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Post</title>
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
@@ -21,20 +22,54 @@
     </header>
     <div class="menuTog" id="mn"></div>
     <section class="singleView">
-        <img src="assets/notfound.png" alt="">
+        <div class="blogContent"></div>
+        <div class="blogComment">
+            <h2>Comments</h2>
+            <div class="comments">
+
+                <div class="comment">
+                    <h6><i class="fa-solid fa-user"></i> Cyusa</h6>
+                    <p>Yolla </p>
+                </div>
+                <div class="comment" id="no-user">
+                    <h6><i class="fa-solid fa-user"></i> Cyusa</h6>
+                    <form>
+                        <input type="hidden" id="postId">
+                        <input type="hidden" id="user">
+                        <input type="text" id="com" placeholder="How do you see it?">
+                        <button id="addComment"><i class="fa-regular fa-paper-plane"></i></button>
+                    </form>
+                    <p class="log"></p>
+                </div>
+            </div>
+        </div>
     </section>
     <script>
         let user = document.cookie.slice(5);
         let header = document.getElementById('top');
         let mn = document.getElementById('mn');
-        let singleView = document.querySelector('.singleView');
+        let singleView = document.querySelector('.blogContent');
+        let commentView = document.querySelector('.comments');
         let urlString = window.location.href;
         let paramString = urlString.split('?')[1];
         let queryString = new URLSearchParams(paramString);
+        for (let pair of queryString.entries()) {
+            var post_id = pair[1];
+        }
         if (localStorage.getItem('posts') != null) {
             var blogs = JSON.parse(localStorage.getItem('posts'));
         } else {
             var blogs = [];
+        }
+        if (localStorage.getItem('comments') != null) {
+            var userComments = JSON.parse(localStorage.getItem('comments'));
+        } else {
+            var userComments = [];
+        }
+        if (localStorage.getItem('accounts') != null) {
+            var accounts = JSON.parse(localStorage.getItem('accounts'));
+        } else {
+            var accounts = [];
         }
         let navIcon = document.getElementById('navIcon');
         navIcon.addEventListener('click', () => {
@@ -44,17 +79,81 @@
             document.cookie = `user=${user}; expires=Thu, 20 Dec 2020 12:00:00 UTC; path="/brand"`;
             window.location.href = 'index.html';
         }
-        for (let pair of queryString.entries()) {
-            var post_id = pair[1];
+        let displayComment = () => {
+            commentView.innerHTML = '';
+            for (let i = 0; i < accounts.length; i++) {
+                let ac = accounts[i];
+                for (let z = 0; z < userComments.length; z++) {
+                    let cmt = userComments[z];
+                    if (ac.userID == cmt.userID && cmt.post == post_id) {
+                        commentView.innerHTML += `
+                                <div class="comment">
+                                    <h6><i class="fa-solid fa-user"></i> ${ac.uname}</h6>
+                                    <p>${cmt.message}</p>
+                                </div>
+                    `;
+                    }
+                }
+            }
+            commentView.innerHTML += `
+            <div class="comment" id="no-user">
+                    <form>
+                        <input type="hidden" id="postId">
+                        <input type="hidden" id="user">
+                        <input type="text" id="com" placeholder="How do you see it?">
+                        <button id="addComment"><i class="fa-regular fa-paper-plane"></i></button>
+                    </form>
+                    <p class="log"></p>
+                </div>`;
+        }
+        displayComment();
+        let sendComment = document.querySelector('#addComment');
+        sendComment.addEventListener('click', (e) => {
+            e.preventDefault();
+            const userId = Number(document.getElementById('user').value);
+            const postID = document.getElementById('postId').value;
+            let cmt = document.getElementById('com').value;
+            if (userId == '' || postID == '' || cmt == '') {
+                document.querySelector('.log').style.color = "red";
+                document.querySelector('.log').innerHTML =
+                    '<i class="fa-regular fa-circle-xmark"></i> Please type your comment';
+            } else {
+                document.querySelector('.log').style.color = "green";
+                userComments.push({
+                    message: cmt,
+                    post: Number(postID),
+                    userID: userId,
+                });
+                localStorage.setItem('comments', JSON.stringify(userComments));
+                document.querySelector('.log').innerHTML =
+                    '<i class="fa-solid fa-square-check"></i> Comment saved!';
+                setTimeout(() => {
+                    document.querySelector('.log').innerHTML = '';
+                    document.getElementById('com').value = '';
+                }, 2000);
+                displayComment();
+            }
+        })
+        document.getElementById('postId').value = post_id;
+        document.getElementById('user').value = user;
+        if (user == '') {
+            document.getElementById('no-user').style.display = 'none';
         }
         let isAvailable = false,
             display = false;
         for (const post of blogs) {
             if (post.id == (post_id)) {
                 display = true;
+                document.title = `${post.title}`;
                 singleView.innerHTML = `
-                <h3>${post.title}</h3>
+                <h2>${post.title}</h2>
+                <p>By <b>Admin</b></p>
                 <img src="${post.profile}" alt="Blog post">
+                    <div class='stats'> 
+                        <p><i class="fa-regular fa-thumbs-up"></i>20</p>
+                        <p><i class="fa-regular fa-share-from-square"></i></p>
+                        
+                    </div>
                 <p>${post.desc}</p>
                 `;
             } else {
