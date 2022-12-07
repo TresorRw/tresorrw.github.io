@@ -140,10 +140,16 @@ header {
 
     li.special,
     li.active {
-        background-color: var(--color-white);
         padding: 0.3em 0.6em;
         border-radius: 4px;
 
+        a {
+            font-weight: 800;
+            color: var(--color-white);
+        }
+    }
+    li.special{
+        background-color: var(--color-white);
         a {
             color: var(--color-bg);
         }
