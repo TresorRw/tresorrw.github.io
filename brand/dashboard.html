@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>DASHBOARD ::MY Brand</title>
+</head>
+
+<body id="body">
+    <nav class="w-100 flex align-center">
+        <div class="lg">
+            <a href="#" class="logo">Tresor</a>
+            <small>blog</small>
+        </div>
+        <ul>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+        <div id="toggler" class="profile">
+            <div class="userProfile fa-solid fa-user-circle"></div>
+        </div>
+    </nav>
+    <div id="menus" class="menuUser">
+        <a href="blog.html">Blog</a>
+        <a href="#"><span class="fa-solid fa-user-cog"></span> Profile</a>
+        <a href="#" class="logout" onclick="logout();"><span class="fa-solid fa-right-from-bracket"></span> Logout</a>
+    </div>
+    <div id="main-page" class="w-100" style="height: 100vh;background: whitesmoke;">
+        <h3><small>blog/</small> Dashboard</h3>
+        <div class="contents flex content-center">
+            <button><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></button>
+            <button id="new"><span class="fa-solid fa-plus-square"></span> New Post</button>
+            <button><a href="allArticles.html"><i class="fa-solid fa-blog"></i> Blogs</a></button>
+            <div class="dash-stats flex ">
+                <div class="singleStat">
+                    <h3>Blogs</h3>
+                    <h1 id="bc">0</h1>
+                </div>
+                <div class="singleStat">
+                    <h3>Likes</h3>
+                    <h1 id="lc">0</h1>
+                </div>
+                <div class="singleStat">
+                    <h3>Comments</h3>
+                    <h1 id="cc">0</h1>
+                </div>
+                <div class="singleStat">
+                    <h3>Messages</h3>
+                    <h1 id="mc">0</h1>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div id="form" class="postForm">
+        <div class="header flex space-between">
+            <h3>ADD NEW POST</h3>
+            <span id="close" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form id="forms">
+                <p id="sms1"></p>
+                <input type="text" placeholder="Blog Title" required id="title">
+                <input type="text" placeholder="Catogory" required id="cat">
+                <textarea id="cont" cols="30" rows="5" placeholder="More"></textarea>
+                <button type="submit" id="send">Post</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/main.js"></script>
+    <script>
+        if (document.cookie == '') {
+            window.location.href = 'index.html#sign-in';
+        }
+        let btn = document.getElementById('new');
+        let form = document.getElementById('form');
+        let pg = document.getElementById('main-page');
+        let clse = document.getElementById('close');
+        let toggler = document.getElementById('toggler');
+        let send = document.getElementById('send');
+        
+        if (localStorage.getItem('posts') != null) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+        } else {
+            var blogs = [];
+        }
+        document.getElementById('bc').innerText = blogs.length;
+        if (localStorage.getItem('likes') != null) {
+            var likes = JSON.parse(localStorage.getItem('likes'));
+        } else {
+            var likes = [];
+        }
+        document.getElementById('lc').innerText = likes.length;
+        if (localStorage.getItem('comments') != null) {
+            var comments = JSON.parse(localStorage.getItem('comments'));
+        } else {
+            var comments = [];
+        }
+        document.getElementById('cc').innerText = comments.length;
+        if (localStorage.getItem('messages') != null) {
+            var messages = JSON.parse(localStorage.getItem('messages'));
+        } else {
+            var messages = [];
+        }
+        document.getElementById('mc').innerText = messages.length;
+        clse.addEventListener('click', () => {
+            form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        btn.addEventListener('click', () => {
+            form.classList.toggle('show');
+            if (form.className == 'postForm show') {
+                pg.style.filter = 'blur(3px)';
+            } else {
+                pg.style.filter = '';
+            }
+        });
+        let logout = () => {
+            let loggedOutUser = document.cookie;
+            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
+            window.location.href = 'index.html#sign-in';
+        }
+        
+        send.addEventListener('click', (e) => {
+            e.preventDefault();
+            post();
+        });
+        
+        let post = () => {
+            let title = document.getElementById('title').value;
+            let cat = document.getElementById('cat').value;
+            let msg = document.getElementById('cont').value;
+            let sms1 = document.getElementById('sms1');
+            if (title == '' || cat == '' || msg == '') {
+                sms1.style.color = "red";
+                sms1.innerHTML = "Please fill all fields!";
+            } else {
+                sms1.innerHTML = '';
+                let postID = blogs.length;
+                let newPost = new Object();
+                newPost.title = title;
+                newPost.category = cat;
+                newPost.desc = msg;
+                newPost.id = postID;
+                newPost.profile = 'https://loremflickr.com/320/240?random=1';
+                newPost.userID = document.cookie.slice(5);
+                blogs.push(newPost);
+                localStorage.setItem('posts', JSON.stringify(blogs));
+                sms.innerHTML = 'Post created please click on close icon.';
+                displayPosts();
+            }
+        }
+        toggler.addEventListener('click', () => {
+            menus.classList.toggle('toggled');
+        });
+    </script>
+</body>
+
+</html>

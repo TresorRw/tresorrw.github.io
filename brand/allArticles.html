@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>All Articles ::MY Brand</title>
+</head>
+
+<body id="body">
+    <nav class="w-100 flex align-center">
+        <div class="lg">
+            <a href="#" class="logo">Tresor</a>
+            <small>blog</small>
+        </div>
+        <ul>
+            <li><a href="blog.html">Blog</a></li>
+        </ul>
+        <div id="toggler" class="profile">
+            <div class="userProfile fa-solid fa-user-circle"></div>
+        </div>
+    </nav>
+    <div id="menus" class="menuUser">
+        <a href="blog.html">Blog</a>
+        <a href="#"><span class="fa-solid fa-user-cog"></span> Profile</a>
+        <a href="#" class="logout" onclick="logout();"><span class="fa-solid fa-right-from-bracket"></span> Logout</a>
+    </div>
+    <div id="main-page" class="w-100" style="height: 100vh;background: whitesmoke;">
+        <h3><small>blog/</small> all articles</h3>
+        <div class="contents w-100 flex content-center">
+            <button><a href="dashboard.html"><i class="fa-solid fa-gauge-high"></i> Dashboard</a></button>
+            <button id="new"><span class="fa-solid fa-plus-square"></span> New Post</button>
+            <button><a href="allArticles.html"><i class="fa-solid fa-blog"></i> Blogs</a></button>
+            <div id="posts" class="posts">
+
+            </div>
+        </div>
+    </div>
+    <div id="form" class="postForm">
+        <div class="header flex space-between">
+            <h3>ADD NEW POST</h3>
+            <span id="close" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form id="forms">
+                <p id="sms1"></p>
+                <input type="text" placeholder="Blog Title" required id="title">
+                <input type="text" placeholder="Catogory" required id="cat">
+                <textarea id="cont" cols="30" rows="5" placeholder="More"></textarea>
+                <button type="submit" id="send">Post</button>
+            </form>
+        </div>
+    </div>
+    <div id="updateForm" class="updateForm">
+        <div class="header flex space-between">
+            <h3>UPDATE POST</h3>
+            <span id="closes" class="fa-solid fa-close"></span>
+        </div>
+        <div class="body">
+            <form id="forms">
+                <p id="sms"></p>
+                <input type="hidden" name="id" id="ids">
+                <input type="text" placeholder="Blog Title" required id="n_t">
+                <input type="text" placeholder="Catogory" required id="n_c">
+                <textarea id="n_desc" cols="30" rows="5" placeholder="More"></textarea>
+                <button type="submit" id="update">Save Changes</button>
+            </form>
+        </div>
+    </div>
+    <script src="js/main.js"></script>
+    <script>
+        if (document.cookie == '') {
+            window.location.href = 'index.html#sign-in';
+        }
+
+        let btn = document.getElementById('new');
+        let form = document.getElementById('form');
+        let up_form = document.getElementById('updateForm');
+        let pg = document.getElementById('main-page');
+        let clse = document.getElementById('close');
+        let clses = document.getElementById('closes');
+        let postsContainer = document.getElementById('posts');
+        let toggler = document.getElementById('toggler');
+        let send = document.getElementById('send');
+        let update = document.getElementById('update');
+        update.addEventListener('click', (e) => {
+            e.preventDefault();
+            let id = document.getElementById('ids').value;
+            let title = document.getElementById('n_t').value;
+            let cat = document.getElementById('n_c').value;
+            let msg = document.getElementById('n_desc').value;
+            blogs[id] = {
+                id: Number(id),
+                title: title,
+                category: cat,
+                desc: msg,
+                profile: 'https://loremflickr.com/320/240'
+            }
+            localStorage.setItem('posts', JSON.stringify(blogs));
+            sms.innerHTML = 'Post updated please click on close icon.';
+            displayPosts();
+        })
+        if (localStorage.getItem('posts') != null) {
+            var blogs = JSON.parse(localStorage.getItem('posts'));
+        } else {
+            var blogs = [];
+        }
+        if (localStorage.getItem('likes') != null) {
+            var likes = JSON.parse(localStorage.getItem('likes'));
+        } else {
+            var likes = [];
+        }
+        if (localStorage.getItem('comments') != null) {
+            var comments = JSON.parse(localStorage.getItem('comments'));
+        } else {
+            var comments = [];
+        }
+        let deletePost = (index) => {
+            let need = prompt("You are about to delete a post\nAre you sure?(y/n)");
+            if (need == 'y') {
+                blogs.splice(index, 1);
+                localStorage.setItem('posts', JSON.stringify(blogs));
+                displayPosts();
+            }
+        }
+        clse.addEventListener('click', () => {
+            form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        clses.addEventListener('click', () => {
+            up_form.classList.remove('show');
+            pg.style.filter = '';
+        });
+        btn.addEventListener('click', () => {
+            form.classList.toggle('show');
+            if (form.className == 'postForm show') {
+                pg.style.filter = 'blur(3px)';
+            } else {
+                pg.style.filter = '';
+            }
+        });
+        let logout = () => {
+            let loggedOutUser = document.cookie;
+            document.cookie = `user=${loggedOutUser.slice(5)}; expires=Thu 20 Nov 2020 12:00:00 UTC`;
+            window.location.href = 'index.html#sign-in';
+        }
+        let displayPosts = () => {
+            postsContainer.innerHTML = '';
+            for (let i = 0; i < blogs.length; i++) {
+                let blog = blogs[i];
+                let current = likes.findIndex((lk) => lk.post == blog.id);
+                if (current <= -1) {
+                    var love = 0;
+                } else {
+                    var love = likes[current].count
+                }
+                postsContainer.innerHTML += `<div class="single flex content-center">
+                    <img src="${blog.profile}" alt="image">
+                    <div class="more w-25">
+                        <h4 class="title">${blog.title}</h4>
+                        <p>${blog.desc.substr(0,50)}...</p>
+                        <div class="flex space-between">
+                            <p>${love} <i class="fa-regular fa-thumbs-up"></i></p>
+                            <p> <i class="fa-regular fa-message"></i></p>
+                            <p id="showSet"> <i class="fa-solid fa-ellipsis-vertical"></i> </p>
+                            <div id="set" class="postStg">
+                                <span onclick="updatePost(${i},'${blog.title}', '${blog.desc}', '${blog.category}');" id="postMenu">edit</span> 
+                                <span id="deletePost" onclick="deletePost(${i})" class="red">delete</span> 
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+            let showSet = document.querySelectorAll('#showSet');
+            let set = document.querySelectorAll('.postStg');
+            for (let i = 0; i < showSet.length; i++) {
+                const element = showSet[i];
+                for (let z = 0; z < set.length; z++) {
+                    const setin = set[i];
+                    element.addEventListener('click', () => {
+                        setin.classList.toggle('set');
+                    });
+                    break;
+                }
+            }
+        }
+
+        displayPosts();
+        send.addEventListener('click', (e) => {
+            e.preventDefault();
+            post();
+        });
+        let updatePost = (index, t, d, c) => {
+            up_form.classList.toggle('show');
+            if (up_form.className == 'updateForm show') {
+                pg.style.filter = 'blur(3px)';
+            } else {
+                pg.style.filter = '';
+            }
+            let id = document.getElementById('ids').value = index;
+            let title = document.getElementById('n_t').value = t;
+            let cat = document.getElementById('n_c').value = c;
+            let msg = document.getElementById('n_desc').value = d;
+        }
+        let post = () => {
+            let title = document.getElementById('title').value;
+            let cat = document.getElementById('cat').value;
+            let msg = document.getElementById('cont').value;
+            let sms1 = document.getElementById('sms1');
+            if (title == '' || cat == '' || msg == '') {
+                sms1.style.color = "red";
+                sms1.innerHTML = "Please fill all fields!";
+            } else {
+                sms1.innerHTML = '';
+                let postID = blogs.length;
+                let newPost = new Object();
+                newPost.title = title;
+                newPost.category = cat;
+                newPost.desc = msg;
+                newPost.id = postID;
+                newPost.profile = 'https://loremflickr.com/320/240?random=1';
+                newPost.userID = document.cookie.slice(5);
+                blogs.push(newPost);
+                localStorage.setItem('posts', JSON.stringify(blogs));
+                sms.innerHTML = 'Post created please click on close icon.';
+                displayPosts();
+            }
+        }
+        toggler.addEventListener('click', () => {
+            menus.classList.toggle('toggled');
+        });
+    </script>
+</body>
+
+</html>
