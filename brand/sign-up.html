@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/apple-touch-icon.png" type="image/png">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://kit.fontawesome.com/cf03def005.js" crossorigin="anonymous"></script>
+    <title>CREATE ACCOUNT ::MY Brand</title>
+</head>
+<body id="body">
+    <header id="top">
+        <a href="index.html" class="nav-logo">Tresor</a>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#why">Why me?</a></li>
+            <li><a href="index.html#who-am-i">About me</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="index.html#sign-in">Sign in</a></li>
+            <li class="special"><a href="index.html#contact">Send inquiry</a></li>
+        </ul>
+        <div class="togglerIcon" id="navIcon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+    <div class="menuTog" id="mn">
+        <a href="index.html#main">Home</a>
+        <a href="index.html#why">Why me?</a>
+        <a href="index.html#who-am-i">About</a>
+        <a href="index.html#sign-in">Sign in</a>
+        <a href="blog.html">Blog</a>
+        <a href="index.html#contact">Contact</a>
+    </div>
+    <div class="main-page">
+        <section id="sign-in" class="bg-white signup flex align-center space-between">
+            <div class="boadrs w-40">
+                <h2>Already have an account?</h2>
+                <a href="index.html#sign-in" class="btn-login">SIGN IN</a>
+            </div>
+            <div class="skills w-40">
+                <form class="w-100" id="newAccount">
+                    <p id="logs"></p>
+                    <div class="input-group">
+                        <label for="email">Email*</label>
+                        <input type="email" class="w-80" name="email" id="email" required placeholder="Your Email">
+                    </div>
+                    <div class="input-group">
+                        <label for="names">Names*</label>
+                        <input type="text" class="w-80" name="names" id="names" required placeholder="Your Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="pass">Password*</label>
+                        <input type="password" class="w-80" name="pwsd" id="pass" required placeholder="Password here">
+                    </div>
+                    <button type="button" onclick="createNewAccount(this);" id="createAccount">SIGN UP</button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <script src="js/main.js"></script>
+</body>
+</html>

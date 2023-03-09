@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="CYUSA Alain Tresor">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" href="images/Profile.jpg" type="image/x-icon">
+    <title>CYUSA Alain Tresor -CV</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="top-line"></div>
+        <header id="header">
+            <div class="mainTitle">
+                <h1 id="title">CYUSA Alain Tresor</h1>
+                <h2>Software Developer</h2>
+            </div>
+            <div class="profile" id="profile">
+                <img src="images/Profile 2.jpg" alt="Personal Profile">
+            </div>
+        </header>
+        <div class="mainPage">
+            <div class="column_one">
+                <div class="main">
+                    <div class="content">
+                        <p class="section_title">EXPERIENCE</p>
+                        <h4>Software Developer</h4>
+                        <h4>Polystar NanoTech</h4>
+                        <p class="section_title">November 1<sup>st</sup> - Present, Kigali</p>
+                        <p class="desc">I work on integration of hardware Systems and software systems, and development of web application that monitor hardware.</p>
+                    </div>
+                    <div class="content">
+                        <h4>Internee</h4>
+                        <h4>National Industrial Research and Development Agency (NIRDA)</h4>
+                        <p class="section_title">April 2022 - May 2022 (2 months), Kigali</p>
+                        <p class="desc">I was working on projects and increase the skills in software development field
+                            and problem solving skills.</p>
+                    </div>
+                    <div class="content">
+                        <h4>Internee</h4>
+                        <h4>Computer Trading and Services</h4>
+                        <p class="section_title">July 2019 - August 2019 (2 months), Kigali</p>
+                        <p class="desc">In computer trading and services i worked on computer mantainance,
+                            network installation and mantainance and <abbr title="Closed-circuit Television">CCTV</abbr> installation and mantainance.</p>
+                    </div>
+
+                    <div class="content">
+                        <p class="section_title">EDUCATION</p>
+                        <h4>Software Development</h4>
+                        <h4>Saint Joseph Integrated Technical College (SJITC - Nyamirambo)</h4>
+                        <p class="section_title">January 2020 - August 2022, Level 4 &amp; 5</p>
+                    </div>
+                    <div class="content">
+                        <h4>Computer Technology/Computer Systems Technology</h4>
+                        <h4>Kavumu TVET School</h4>
+                        <p class="section_title">January 2019 - September 2019, Level 3</p>
+                    </div>
+                    <div class="content">
+                        <h4>Ordinary Level (O'level)</h4>
+                        <h4>ES Rutongo</h4>
+                        <p class="section_title">January 2016 - September 2018, O'level</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column_two">
+                <div class="main">
+                    <div class="contact">
+                        <a href="mailto: alaintresorcyusa683@gmail.com">Mail me!</a>
+                        <a href="tel:+250790904527">+250 790 904 527</a>
+                        <a href="https://www.google.com/maps/place/1%C2%B057'48.8%22S+30%C2%B004'30.7%22E/@-1.9635589,30.0746374,199m/data=!3m2!1e3!4b1!4m5!3m4!1s0x0:0x1f8252dc676bb30f!8m2!3d-1.9635602!4d30.0751846">Gikondo,
+                            Kigali, Rwanda</a>
+                    </div>
+                    <div class="next">
+                        <h4>Industrial Knowledge</h4>
+                        <p>Design &amp; Development</p>
+                        <p>User Interface &amp; Experience</p>
+                        <p>Research</p>
+                    </div>
+                    <div class="next">
+                        <h4>Tools &amp; Technologies</h4>
+                        <p>Figma</p>
+                        <p>phpMyAdmin</p>
+                        <p>Slack &amp; Discord</p>
+                        <p>Postman</p>
+                    </div>
+                    <div class="next">
+                        <h4>Programming languages</h4>
+                        <p>JavaScript, PHP</p>
+                    </div>
+                    <div class="next">
+                        <h4>Other Skills</h4>
+                        <p>HTML, CSS, jQuery, NodeJS</p>
+                    </div>
+                    <div class="next">
+                        <h4>Languages</h4>
+                        <p>English</p>
+                    </div>
+                    <div class="next">
+                        <h4>Lets meet up</h4>
+                        <a href="https://www.linkedin.com/in/catresor/">LinkedIn</a>
+                         <a href="https://www.upwork.com/freelancers/~01dbc1ec59348c3185">Up Work</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        window.onscroll = function() {myFunction()};
+        var header = document.getElementById("header");
+        var sticky = header.offsetTop;
+        let title = document.getElementById('title');
+        let colors = ['#059', 'green', 'cyan', 'yellow', 'blue', '#000033', '#2f956d', '#605ea9'];
+        title.addEventListener('click', (e) => {
+            let current = Math.floor(Math.random( )* colors.length);
+            title.style.color = colors[current];
+        });
+        function myFunction() {
+          if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+          } else {
+            header.classList.remove("sticky");
+          }
+        }
+        </script>
+</body>
+
+</html>
